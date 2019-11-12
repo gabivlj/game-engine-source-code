@@ -14,7 +14,6 @@
 #include <SDL2/SDL.h>
 
 class Sprite {
-    SDL_Texture* texture;
     std::string path;
 public:
     Sprite(std::string p) {
