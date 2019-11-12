@@ -15,9 +15,12 @@
 #include <SDL2_image/SDL_image.h>
 
 class WindowManager : public Singleton<WindowManager> {
+    bool initialized = false;
 public:
     friend class Singleton<WindowManager>;
     void Initialize (int SCREEN_HEIGHT, int SCREEN_WIDTH) {
+        if (initialized) return;
+        initialized = true;
         w = SDL_CreateWindow("My game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
         s = SDL_GetWindowSurface(w);
         r = SDL_GetRenderer(w);
@@ -44,7 +47,7 @@ public:
         return t;
     }
     
-    void SetPosition(SDL_Texture* t, const SDL_Rect* rect) {
+    void Render(SDL_Texture* t, const SDL_Rect* rect) {
         SDL_Point p;
         SDL_Rect reeect;
         reeect = SDL_Rect { rect->x, rect->y, rect->w, rect->h};
@@ -58,7 +61,7 @@ public:
         SDL_RenderPresent(r);
     }
     
-    void RenderTexture(SDL_Texture* t) {
+    void RenderTexture(SDL_Texture* t, SDL_Rect* rect) {
          SDL_RenderCopy(r, t, NULL, NULL);
     }
     

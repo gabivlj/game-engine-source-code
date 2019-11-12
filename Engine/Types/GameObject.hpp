@@ -42,6 +42,10 @@ public:
         _tag = tag;
         _instanceID = GameObject::GLOBAL_ID++;
     }
+    
+    const Sprite* sprite() {
+        return _sprite;
+    }
 
 protected:
     void setSpriteIndex(int index) {
