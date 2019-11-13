@@ -14,6 +14,7 @@
 
 #ifdef _WIN32
 #include <SDL.h>
+#include <SDL_image.h>
 #endif
 #if __APPLE__
 #include <SDL2/SDL.h>
