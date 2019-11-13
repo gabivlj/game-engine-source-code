@@ -28,11 +28,13 @@
 
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
-    GraphicsManager() {
-        
-    }
-    // TODO: Change int to SDL_Texture.
+    
+    GraphicsManager() {}
+    
+    friend StateManager;
+    
     std::map<const Sprite*, SDL_Texture*> textures;
+    
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
         const SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->transform.position, &gameObject->transform.dimension);
@@ -70,13 +72,15 @@ private:
     bool end() {
         return true;
     }
+    
+    bool start() {
+       WindowManager::getInstance()->Initialize(1000, 1000);
+       return true;
+    }
+       
 
 public:
-    bool start() {
-        WindowManager::getInstance()->Initialize(1000, 1000);
-        return true;
-    }
-    
+   
     /**
      * @param source string of the path
      * @param dimensions dimensions of the sprite

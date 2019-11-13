@@ -11,14 +11,20 @@
 
 #include <stdio.h>
 #include "Singleton.hpp"
+#include "GameObjectManager.hpp"
+
+// Predeclaration for the scene.
+class Scene;
 
 class StateManager : public Singleton<StateManager> {
-    
 public:
-    
+    bool playing = false;
     
 private:
     StateManager() {}
+    
+    void start(Scene*);
+    
     
 protected:
     

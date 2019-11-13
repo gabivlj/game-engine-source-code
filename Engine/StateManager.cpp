@@ -7,3 +7,10 @@
 //
 
 #include "StateManager.hpp"
+#include "GameObjectManager.hpp"
+
+void StateManager::start(Scene* scene) {
+    playing = false;
+    GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
+}
+
