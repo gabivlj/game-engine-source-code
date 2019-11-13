@@ -39,4 +39,4 @@ public:
     
 };
 
-#endif /* GameObjectManager_hpp */
+#endif GameObjectManager_hpp
