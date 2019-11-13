@@ -36,7 +36,6 @@ void StateManager::update() {
         GameObjectManager::getInstance()->update();
         // TODO: multithreading
         GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->GetObjects(), GameObjectManager::getInstance()->GetObjects().size());
-            
         
     }
 }
