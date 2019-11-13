@@ -32,12 +32,12 @@ void StateManager::update() {
     
     while(playing) {
         while (SDL_PollEvent(&e)) {
-            // InputManager::start();
+            // InputManager::update();
             
         }
-        GameObjectManager::getInstance()->update();
+        GameObjectManager::getInstance()->update();        
         // TODO: multithreading
-        GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects().size());
+        GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects()->size());
     }
 }
 

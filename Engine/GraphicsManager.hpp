@@ -40,7 +40,7 @@ private:
     
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
-        const SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->transform.position, &gameObject->transform.dimension);
+        const SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We
         // also pass the endRect which is where we want it rendered (the position of the gameObject).
         WindowManager::getInstance()->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));
@@ -70,10 +70,10 @@ private:
         return optimizedSurface;
     }
     
-    bool update(std::vector<GameObject*> gameObjects, int length) {
+    bool update(std::vector<GameObject*>* gameObjects, int length) {
         WindowManager::getInstance()->clearWindow();
         for (int i = 0; i < length; ++i) {
-            GameObject* gameObject = gameObjects[i];
+            GameObject* gameObject = (*gameObjects)[i];
             render(gameObject);
         }
         WindowManager::getInstance()->updateWindow();

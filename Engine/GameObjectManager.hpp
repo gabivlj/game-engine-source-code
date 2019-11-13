@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include <vector>
+#include <stack>
+#include <queue>
 #include "Singleton.hpp"
 #include "Types/GameObject.hpp"
 
@@ -20,6 +22,7 @@ class GameObjectManager : public Singleton<GameObjectManager> {
 private:
     
     std::vector<GameObject*> _objects;
+    std::queue<GameObject*> _instantiated;
     
     friend StateManager;
     
@@ -29,8 +32,14 @@ private:
     }
     
     void update() {
-        for (auto _object : _objects) {
+        for (GameObject* _object : _objects) {
             _object->update();
+        }
+        // Empty the queue
+        while (!_instantiated.empty()) {
+            printf("%i\n", _instantiated.size());
+            _objects.push_back(_instantiated.front());
+            _instantiated.pop();
         }
     }
     
@@ -39,7 +48,17 @@ private:
     }
     
 public:
-    std::vector<GameObject*> getObjects() { return _objects; }
+    std::vector<GameObject*>* getObjects() { return &_objects; }
+    
+    GameObjectManager() {
+        _objects = std::vector<GameObject*>();
+        _instantiated = std::queue<GameObject*>();
+    }
+    
+    bool Instantiate(GameObject* gameObject) {
+        _instantiated.push(gameObject);
+        return true;
+    }
     
 };
 

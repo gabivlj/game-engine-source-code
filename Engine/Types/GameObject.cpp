@@ -7,3 +7,8 @@
 //
 
 #include "GameObject.hpp"
+
+#include "../GameObjectManager.hpp"
+
+
+void GameObject::update() {}

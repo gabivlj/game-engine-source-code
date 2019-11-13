@@ -13,5 +13,8 @@
 #include "GraphicsManager.hpp"
 #include "SceneManager.hpp"
 
+//SceneManager *scenes = SceneManager::getInstance();
+//GameObjectManager* gameObject = GameObjectManager::getInstance();
+//GraphicsManager* graphics = GraphicsManager::getInstance();
 
 #endif /* Engine_hpp */

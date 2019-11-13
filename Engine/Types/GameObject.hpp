@@ -15,19 +15,20 @@
 #include "Vector.hpp"
 #include "Sprite.hpp"
 
+static int GLOBAL_ID;
 
 class GameObject {
 private:
-    static int GLOBAL_ID;
+    
     int _instanceID;
     std::string _tag;
     std::vector<const Sprite*> _sprites;
     // Current sprite.
     const Sprite* _sprite;
-    
+    bool instantiatedTest;
 public:
     // Variables
-    transform transform;
+    transform form;
     
     // Methods
     const int getInstanceID() {
@@ -39,20 +40,20 @@ public:
     }
     
     GameObject(::transform t, std::string tag, const Sprite* sprite) {
-        transform = t;
+        instantiatedTest = tag == "prueba";        
+        form = t;
         _tag = tag;
         _sprites = std::vector<const Sprite*>();
         _sprites.push_back(sprite);
         setSpriteIndex(0);
-//        _instanceID = GameObject::GLOBAL_ID++;
+        _instanceID = GLOBAL_ID++;
     }
     
     const Sprite* sprite() {
         return _sprite;
     }
 
-    virtual void update() {
-    }
+    virtual void update();
     
 protected:
     void setSpriteIndex(int index) {
