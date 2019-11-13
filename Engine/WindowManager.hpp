@@ -51,10 +51,10 @@ public:
         SDL_Point p;
         SDL_Rect reeect;
         reeect = SDL_Rect { rect->x, rect->y, rect->w, rect->h};
-        p.x = rect->w / 2;
-        p.y = rect->h / 2;
+        p.x = rect->x;
+        p.y = rect->y;
         double flip = 0;
-        SDL_RenderCopyEx(r, t, rect, &reeect, flip, &p, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(r, t, &reeect, rect, flip, &p, SDL_FLIP_NONE);
     }
     
     void UpdateWindow() {

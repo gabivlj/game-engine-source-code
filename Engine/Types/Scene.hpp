@@ -11,14 +11,15 @@
 
 #include <stdio.h>
 #include "GameObject.hpp"
-#include "../SceneManager.hpp"
+#include "../Singleton.hpp"
+#include "../StateManager.hpp"
 
 class Scene {
 private:
     GameObject** _gameObjects;
-    int nGameObjects;
-    friend SceneManager;
+    friend StateManager;
 public:
+    int nGameObjects;
     /**
      * @param object GameObject to add.
      * @description Adds a gameObject to the list of gameObjects
@@ -30,7 +31,7 @@ public:
         return true;
     }
     
-    Scene() {}
+    Scene() { nGameObjects = 0; _gameObjects = (GameObject**) malloc(sizeof(GameObject*)); }
     
 };
 

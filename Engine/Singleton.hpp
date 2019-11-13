@@ -23,6 +23,9 @@ private:
         return instance;
     }
     inline static A* getInstance() {
+        if (instance == NULL) {
+            instance = new A();
+        }
         return instance;
     }
 

@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <vector>
 #include "Singleton.hpp"
-#include "StateManager.hpp"
 #include "Types/GameObject.hpp"
 
+class StateManager;
 
 class GameObjectManager : public Singleton<GameObjectManager> {
 private:
@@ -29,7 +29,9 @@ private:
     }
     
     void update() {
-        
+        for (auto _object : _objects) {
+            _object->update();
+        }
     }
     
 public:

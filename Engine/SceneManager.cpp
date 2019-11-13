@@ -7,3 +7,27 @@
 //
 
 #include "SceneManager.hpp"
+#include "StateManager.hpp"
+#include "./Types/Scene.hpp"
+
+bool SceneManager::addScene(Scene* sceneToAdd) {
+    scenes.push_back(sceneToAdd);
+    return true;
+}
+
+bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
+   for (int i = 0; i < scenes.size(); ++i) {
+       if (scenes[i] == sceneToChangeTo) {
+           StateManager::getInstance()->start(scenes[i]);
+           return true;
+       }
+   }
+   return false;
+}
+
+bool SceneManager::changeToScene(int index) {
+    if (index < scenes.size()) {
+        return true;
+    }
+    return false;
+}

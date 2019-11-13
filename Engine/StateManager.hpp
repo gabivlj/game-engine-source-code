@@ -13,16 +13,18 @@
 #include "Singleton.hpp"
 #include "GameObjectManager.hpp"
 
+
 // Predeclaration for the scene.
 class Scene;
+class SceneManager;
 
 class StateManager : public Singleton<StateManager> {
 public:
     bool playing = false;
-    
-private:
     StateManager() {}
+private:
     
+    friend SceneManager;
     void start(Scene*);
     void update();
     

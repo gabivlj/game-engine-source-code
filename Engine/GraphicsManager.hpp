@@ -29,7 +29,6 @@
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
     
-    GraphicsManager() {}
     
     friend StateManager;
     
@@ -62,10 +61,12 @@ private:
     }
     
     bool update(std::vector<GameObject*> gameObjects, int length) {
+        WindowManager::getInstance()->clearWindow();
         for (int i = 0; i < length; ++i) {
             GameObject* gameObject = gameObjects[i];
             render(gameObject);
         }
+        WindowManager::getInstance()->UpdateWindow();
         return true;
     }
     
@@ -74,13 +75,17 @@ private:
     }
     
     bool start() {
-       WindowManager::getInstance()->Initialize(1000, 1000);
        return true;
     }
        
 
 public:
    
+    GraphicsManager() {
+        textures = std::map<const Sprite*, SDL_Texture*>();
+        WindowManager::getInstance()->Initialize(1000, 1000);
+    }
+    
     /**
      * @param source string of the path
      * @param dimensions dimensions of the sprite

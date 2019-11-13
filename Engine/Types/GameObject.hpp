@@ -15,14 +15,15 @@
 #include "Vector.hpp"
 #include "Sprite.hpp"
 
+
 class GameObject {
 private:
     static int GLOBAL_ID;
     int _instanceID;
     std::string _tag;
-    std::vector<Sprite*> _sprites;
+    std::vector<const Sprite*> _sprites;
     // Current sprite.
-    Sprite* _sprite;
+    const Sprite* _sprite;
     
 public:
     // Variables
@@ -37,20 +38,26 @@ public:
         return t == _tag;
     }
     
-    GameObject(::transform t, std::string tag) {
+    GameObject(::transform t, std::string tag, const Sprite* sprite) {
         transform = t;
         _tag = tag;
-        _instanceID = GameObject::GLOBAL_ID++;
+        _sprites = std::vector<const Sprite*>();
+        _sprites.push_back(sprite);
+        setSpriteIndex(0);
+//        _instanceID = GameObject::GLOBAL_ID++;
     }
     
     const Sprite* sprite() {
         return _sprite;
     }
 
+    virtual void update() {}
+    
 protected:
     void setSpriteIndex(int index) {
         _sprite = _sprites[index];
     }
+    
 };
 
 #endif /* GameObject_hpp */

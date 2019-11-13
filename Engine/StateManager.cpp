@@ -31,11 +31,39 @@ void StateManager::start(Scene* scene) {
 }
 
 void StateManager::update() {
-    while (playing) {
-        // InputManager::start();
+    SDL_Event e;
+    
+    while(playing) {
+        while (SDL_PollEvent(&e)) {
+            // InputManager::start();
+            
+        }
         GameObjectManager::getInstance()->update();
         // TODO: multithreading
         GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->GetObjects(), GameObjectManager::getInstance()->GetObjects().size());
-        
     }
 }
+//
+//SDL_Event e;
+//bool quit = false;
+//while (!quit){
+//    while (SDL_PollEvent(&e)) {
+//        InputManager* input = InputManager::createInstance();
+//        bool up = input->GetAxis(ARROW_UP);
+//        bool down = input->GetAxis(ARROW_DOWN);
+//        if (e.type == SDL_QUIT){
+//            quit = true;
+//        }
+//        w->clearWindow();
+//        gm->y += (int)up * 10;
+//        gm->y += (int)down * -10;
+//
+//        gm2->y += (int)up * 10;
+//        gm2->y += (int)down * -10;
+//        gm->update();
+//        gm2->update();
+//        w->UpdateWindow();
+//    }
+//}
+//w->Destroy();
+//SDL_Quit();

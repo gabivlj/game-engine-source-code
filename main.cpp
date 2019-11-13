@@ -7,18 +7,28 @@
 ////  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #include <iostream>
-#ifdef _WIN32
-#include <SDL/SDL.h>
-#endif
-#if __APPLE__
-#include <SDL2/SDL.h>
-#endif
-
+#include "./Engine/Types/Scene.hpp"
+#include "./Engine/Engine.hpp"
 
 int Test();
 
 int main(int arg, char* args[]) {
     Test();
+    Scene* scene = new Scene();
+    transform tr = transform{};
+    tr.position = vec2{0, 0};
+    tr.dimension.width = 100;
+    tr.dimension.height = 100;
+    
+    const Sprite *sp = GraphicsManager::getInstance()->loadSprite("/src/loaded.png", dimensions{ 100, 100 }, transform{vec2{10, 10}, dimensions{ 10, 10 }, 0});
+    GameObject* g = new GameObject(tr, "gm", sp);
+    tr.dimension.height += 100;
+    tr.position.x += 150;
+    GameObject* g2 = new GameObject(tr, "gm", sp);
+    scene->addObject(g);
+    scene->addObject(g2);
+    SceneManager::getInstance()->addScene(scene);
+    SceneManager::getInstance()->changeToScene(scene);
 }
 
 
@@ -63,5 +73,5 @@ int Test() {
 //    w->Destroy();
 //    SDL_Quit();
 //    return 0;
-
+    return 0;
 }
