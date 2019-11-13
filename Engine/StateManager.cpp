@@ -7,7 +7,9 @@
 //
 
 #include "StateManager.hpp"
+#include "Types/Scene.hpp"
 #include "GameObjectManager.hpp"
+
 
 void StateManager::start(Scene* scene) {
     playing = false;
