@@ -61,7 +61,7 @@ private:
         return optimizedSurface;
     }
     
-    bool update(GameObject** gameObjects, int length) {
+    bool update(std::vector<GameObject*> gameObjects, int length) {
         for (int i = 0; i < length; ++i) {
             GameObject* gameObject = gameObjects[i];
             render(gameObject);

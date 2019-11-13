@@ -18,14 +18,23 @@
 
 class GameObjectManager : public Singleton<GameObjectManager> {
 private:
+    
     std::vector<GameObject*> _objects;
+    
     friend StateManager;
-public:
-    std::vector<GameObject*> GetObjects() { return _objects; }
+    
     bool start(GameObject** gameObjects, int len) {
         for (int i = 0; i < len; ++i) _objects.push_back(gameObjects[i]);
         return true;
     }
+    
+    void update() {
+        
+    }
+    
+public:
+    std::vector<GameObject*> GetObjects() { return _objects; }
+    
 };
 
 #endif /* GameObjectManager_hpp */

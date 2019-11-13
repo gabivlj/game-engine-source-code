@@ -24,7 +24,7 @@ private:
     StateManager() {}
     
     void start(Scene*);
-    
+    void update();
     
 protected:
     
