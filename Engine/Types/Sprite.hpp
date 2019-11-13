@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class Sprite {
     std::string path;

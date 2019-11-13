@@ -9,7 +9,7 @@
 #ifndef Utils_hpp
 #define Utils_hpp
 #ifdef _WIN32
-#include <SDL/SDL.h>
+#include <SDL.h>
 #endif
 #if __APPLE__
 #include <SDL2/SDL.h>

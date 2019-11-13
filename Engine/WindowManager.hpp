@@ -11,8 +11,15 @@
 
 #include <stdio.h>
 #include "./Singleton.hpp"
+
+#ifdef _WIN32
+#include <SDL.h>
+#endif
+#if __APPLE__
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#endif
+
 
 class WindowManager : public Singleton<WindowManager> {
     bool initialized = false;
