@@ -14,10 +14,13 @@
 #include "../Singleton.hpp"
 #include "../StateManager.hpp"
 
+class SceneManager;
+
 class Scene {
 private:
     GameObject** _gameObjects;
     friend StateManager;
+    friend SceneManager;
 public:
     int nGameObjects;
     /**

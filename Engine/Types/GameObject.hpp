@@ -51,7 +51,8 @@ public:
         return _sprite;
     }
 
-    virtual void update() {}
+    virtual void update() {
+    }
     
 protected:
     void setSpriteIndex(int index) {

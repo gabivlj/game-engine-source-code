@@ -34,9 +34,13 @@ private:
         }
     }
     
+    void end() {
+        _objects.clear();
+    }
+    
 public:
-    std::vector<GameObject*> GetObjects() { return _objects; }
+    std::vector<GameObject*> getObjects() { return _objects; }
     
 };
 
-#endif GameObjectManager_hpp
+#endif // GameObjectManager_hpp

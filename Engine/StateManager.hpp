@@ -27,6 +27,7 @@ private:
     friend SceneManager;
     void start(Scene*);
     void update();
+    void end();
     
 protected:
     

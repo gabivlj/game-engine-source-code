@@ -20,9 +20,6 @@
 
 
 void StateManager::start(Scene* scene) {
-    if (playing) {
-        // end();
-    }
     playing = false;
     GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
     GraphicsManager::getInstance()->start();
@@ -40,8 +37,13 @@ void StateManager::update() {
         }
         GameObjectManager::getInstance()->update();
         // TODO: multithreading
-        GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->GetObjects(), GameObjectManager::getInstance()->GetObjects().size());
+        GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects().size());
     }
+}
+
+void StateManager::end() {
+    GameObjectManager::getInstance()->end();
+    GraphicsManager::getInstance()->end();
 }
 //
 //SDL_Event e;

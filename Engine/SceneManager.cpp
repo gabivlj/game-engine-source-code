@@ -18,7 +18,11 @@ bool SceneManager::addScene(Scene* sceneToAdd) {
 bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
    for (int i = 0; i < scenes.size(); ++i) {
        if (scenes[i] == sceneToChangeTo) {
-           StateManager::getInstance()->start(scenes[i]);
+           StateManager* stateManager = StateManager::getInstance();
+           if (stateManager->playing) {
+               stateManager->end();
+           }
+           stateManager->start(scenes[i]);
            return true;
        }
    }

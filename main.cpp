@@ -20,7 +20,7 @@ int main(int arg, char* args[]) {
     tr.dimension.width = 100;
     tr.dimension.height = 100;
     
-    const Sprite *sp = GraphicsManager::getInstance()->loadSprite("/src/loaded.png", dimensions{ 100, 100 }, transform{vec2{10, 10}, dimensions{ 10, 10 }, 0});
+    const Sprite *sp = GraphicsManager::getInstance()->loadSprite("/src/loaded.png", dimensions{10, 10}, vec2{0, 0});
     GameObject* g = new GameObject(tr, "gm", sp);
     tr.dimension.height += 100;
     tr.position.x += 150;

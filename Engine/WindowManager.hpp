@@ -26,7 +26,12 @@ class WindowManager : public Singleton<WindowManager> {
     bool initialized = false;
 public:
     friend class Singleton<WindowManager>;
-    void Initialize (int SCREEN_HEIGHT, int SCREEN_WIDTH) {
+    /**
+     * @param SCREEN_HEIGHT The screen height
+     * @param SCREEN_WIDTH The screen width
+     * @description Initializes the window.
+     */
+    void initialize (int SCREEN_HEIGHT, int SCREEN_WIDTH) {
         if (initialized) return;
         initialized = true;
         w = SDL_CreateWindow("My game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
@@ -45,34 +50,47 @@ public:
         return w;
     }
     
-    SDL_Texture* CreateTexture(SDL_Surface* surface, const SDL_Rect* rect) {
+    SDL_Texture* createTexture(SDL_Surface* surface, const SDL_Rect* rect) {
         if (!r) {
             printf("\nRenderer not initalized\n");
         }
         SDL_Texture* t = SDL_CreateTextureFromSurface(r, surface);
         SDL_RenderCopy(r, t, rect, rect);
-
+        
         return t;
     }
     
-    void Render(SDL_Texture* t, const SDL_Rect* rect) {
+    /**
+     * @description Don't use this. We already use RenderTexture()
+     * @deprecated
+     */
+    void Render(SDL_Texture* t, const SDL_Rect* rect) SDL_DEPRECATED _LIBCPP_DEPRECATED {
         SDL_Point p;
         SDL_Rect reeect;
-        reeect = SDL_Rect { rect->x, rect->y, rect->w, rect->h};
-        p.x = rect->x;
-        p.y = rect->y;
+        reeect = { rect->x, rect->y, rect->w, rect->h};
+        p.x = rect->x + rect->w / 2;
+        p.y = rect->y + rect->h / 2;
         double flip = 0;
-        SDL_RenderCopyEx(r, t, &reeect, rect, flip, &p, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(r, t, rect, &reeect, flip, &p, SDL_FLIP_NONE);
     }
     
-    void UpdateWindow() {
+    void updateWindow() {
         SDL_RenderPresent(r);
     }
     
-    void RenderTexture(SDL_Texture* t, SDL_Rect* rect) {
-         SDL_RenderCopy(r, t, NULL, NULL);
+    /**
+     * @param t Texture to render
+     * @param rect Where to render
+     * @param image_rect Where is the original texture stored
+     * @description Copies a texture from @image_rect and renders it on @rect
+     */
+    void renderTexture(SDL_Texture* t, const SDL_Rect* rect, const SDL_Rect* image_rect) {
+         SDL_RenderCopy(r, t, image_rect, rect);
     }
     
+    /**
+     * @description Clears the window
+     */
     void clearWindow() {
         SDL_SetRenderDrawColor(r, 1, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(r);
@@ -80,10 +98,10 @@ public:
     
     void FillSurface(Uint8 r, Uint8 g, Uint8 b) {
         SDL_FillRect(s, NULL, SDL_MapRGB(s->format, r, g, b));
-        UpdateWindow();
+        updateWindow();
     }
     
-    void Destroy() {
+    void destroy() {
         SDL_DestroyWindow(w);
     }
     
