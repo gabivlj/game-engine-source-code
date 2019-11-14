@@ -23,6 +23,7 @@ typedef struct {
 
 typedef struct {
     vec2 position;
+	vec2 scale;
     dimensions dimension;
     float rotation;
 } transform;

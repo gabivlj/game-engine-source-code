@@ -17,9 +17,15 @@
 
 static int GLOBAL_ID = 0;
 
-enum Collider {
+enum ColliderType {
     NONE, AABB, CIRCULAR,
 };
+
+typedef struct {
+	ColliderType type;
+	transform collisioner;
+	
+} Collider;
 
 class PhysicsManager;
 class GameObjectManager;
