@@ -36,8 +36,9 @@ void graphicsThreadUpdate() {
 
 void StateManager::update() {
     SDL_Event e;
-    float frameRate = 60 / 1000;
+    double frameRate = 60.0 / 1000.0;
     TimeManager* time = TimeManager::getInstance();
+    int timesPlayed = 0;
     
     while(playing) {
         time->start();
@@ -45,12 +46,20 @@ void StateManager::update() {
         while (SDL_PollEvent(&e)) {
             // InputManager::update();
         }
+        
         std::thread graphicsThread(graphicsThreadUpdate);
         GameObjectManager::getInstance()->update();
+        
         graphicsThread.join();
-        while(TimeManager::getInstance()->elapsed < frameRate)
+        
+        while(TimeManager::getInstance()->elapsed < frameRate) {
             TimeManager::getInstance()->update();
+        }
         time->delta();
+        printf("elapsed: %f, %f\n", TimeManager::getInstance()->elapsed, frameRate);
+        printf("times played: %i\n", timesPlayed);
+        timesPlayed = 0;
+        
     }
 }
 

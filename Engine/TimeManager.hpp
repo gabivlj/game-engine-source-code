@@ -24,19 +24,18 @@ private:
     friend StateManager;
     friend GameObjectManager;
     
-    float deltaTime = 0.001;
-    float elapsed = 0;
-    std::chrono::steady_clock::time_point begin;
+    double deltaTime = 0.001;
+    double elapsed = 0;
+    clock_t begin;
     clock_t dt;
     
     void start() {
-        begin = std::chrono::steady_clock::now();
+        begin = std::clock();
         elapsed = 0;
     }
     
     void update() {        
-        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-        elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - begin).count();
+        elapsed = (double)(std::clock() - begin ) / CLOCKS_PER_SEC ;
     }
     
     void startDelta() {
@@ -44,7 +43,7 @@ private:
     }
     
     void delta() {
-        deltaTime = (float)(std::clock() - dt) / CLOCKS_PER_SEC;
+        deltaTime = ((double)(std::clock() - dt) / CLOCKS_PER_SEC);
     }
     
 };

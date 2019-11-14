@@ -25,7 +25,7 @@ int main(int arg, char* args[]) {
     tr.dimension.height = 100;
     // Sprite declaration
     const Sprite *sp = graphics->loadSprite("/loaded.png", dimensions{10, 10}, vec2{0, 0});
-    Square* g = new Square(tr, "gm", sp, 500);
+    Square* g = new Square(tr, "gm", sp, 10);
     tr.dimension.height += 100;
     tr.position.x += 150;
     GameObject* g2 = new GameObject(tr, "gm", sp);

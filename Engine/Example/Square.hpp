@@ -21,11 +21,11 @@ public:
         speed = spd;
     }
     
-    void update(float deltaTime) override {
+    void update(double deltaTime) override {
         if (form.position.x > 50 || form.position.x < 0) {
             speed *= -1;
         }
-        form.position.x += speed * deltaTime;
+        form.position.x += speed;
 //        WindowManager* w = WindowManager::getInstance();
 //        vec2 sizes = vec2{(static_cast<float>(w->SCREEN_W/2)), static_cast<float>((w->SCREEN_H/2))};
 //        CameraManager::getInstance()->setPosition(vec2{ form.position.x - sizes.x, form.position.y - sizes.y});

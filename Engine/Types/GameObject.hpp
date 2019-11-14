@@ -70,7 +70,7 @@ public:
         return _sprite;
     }
 
-    virtual void update(float deltaTime);
+    virtual void update(double deltaTime);
     
     void setCollider(Collider col) {
         _collider = col;
