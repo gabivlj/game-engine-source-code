@@ -21,10 +21,15 @@ enum ColliderType {
     NONE, AABB, CIRCULAR,
 };
 
+
 typedef struct {
 	ColliderType type;
 	transform collisioner;
-	
+	bool from[4] = { // TOP, LEFT, BOTTOM, RIGHT
+		false,
+		false,
+		false,
+		false};
 } Collider;
 
 class PhysicsManager;
