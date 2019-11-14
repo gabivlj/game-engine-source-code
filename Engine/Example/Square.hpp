@@ -30,6 +30,10 @@ public:
 //        vec2 sizes = vec2{(static_cast<float>(w->SCREEN_W/2)), static_cast<float>((w->SCREEN_H/2))};
 //        CameraManager::getInstance()->setPosition(vec2{ form.position.x - sizes.x, form.position.y - sizes.y});
     }
+    
+protected:
+    void onCollide(GameObject *go, Collider* collider) override {
+    }
 };
 
 #endif /* Square_hpp */

@@ -35,6 +35,7 @@ private:
     std::queue<Actions> _actions;
     
     friend StateManager;
+    friend bool waitUntilUpdateFinishes();
     
     bool start(GameObject** gameObjects, int len) {
         for (int i = 0; i < len; ++i) _objects.push_back(gameObjects[i]);

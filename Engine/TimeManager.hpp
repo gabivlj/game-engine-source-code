@@ -21,6 +21,7 @@ class TimeManager : public Singleton<TimeManager> {
 public:
     TimeManager() {}
 private:
+    
     friend StateManager;
     friend GameObjectManager;
     

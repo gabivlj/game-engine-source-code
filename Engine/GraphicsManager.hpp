@@ -36,6 +36,8 @@ private:
     
     friend StateManager;
     friend void graphicsThreadUpdate();
+    friend bool waitUntilUpdateFinishes();
+    
     
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;

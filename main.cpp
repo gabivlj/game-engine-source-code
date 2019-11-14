@@ -1,10 +1,10 @@
-////  PROJECT WITH SDL IN MAC/WINDOWS
-////  Created by Gabriel Villalonga Simón and Daniel Gracia on 15/09/2019.
-////  Copyright © 2019 Gabriel Villalonga Simón and Daniel Gracia. All rights reserved.
-////
-////  @@@@@@ This main is a test target for checking that all the libraries of this project work properly! @@@@@@
-////      If Engine19 main.cpp is able to create the target, all is going right in your project configuration.
-////  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+///  PROJECT WITH SDL IN MAC/WINDOWS
+///  Created by Gabriel Villalonga Simón and Daniel Gracia on 15/09/2019.
+///  Copyright © 2019 Gabriel Villalonga Simón, Jorge SOlano Daniel Gracia. All rights reserved.
+///
+///  @@@@@@ This main is a test target for checking that all the libraries of this project work properly! @@@@@@
+///             If Engine19 main.cpp is able to create the target, all is going right in your project configuration.
+/// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #include <iostream>
 #include "./Engine/Types/Scene.hpp"
@@ -33,9 +33,6 @@ int main(int arg, char* args[]) {
     scene->addObject(g);
     scene->addObject(g2);
     scenes->addScene(scene);
-    // Play game
+    // Play game...
     scenes->changeToScene(scene);
-    tr.dimension.height += 300;
-    tr.position.x += 50;
-    // Object adding to scene
 }

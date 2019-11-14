@@ -20,18 +20,24 @@
 #include "CameraManager.hpp"
 #include "GraphicsManager.hpp"
 #include "TimeManager.hpp"
+#include "PhysicsManager.hpp"
 
 
 void StateManager::start(Scene* scene) {
     playing = false;
+    finishedLoop = false;
     GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
+    PhysicsManager::getInstance()->start(GameObjectManager::getInstance()->getObjects());
     GraphicsManager::getInstance()->start();
     playing = true;
     update();
 }
 
 void graphicsThreadUpdate() {
-    GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects()->size());
+    GraphicsManager::getInstance()->update(
+       GameObjectManager::getInstance()->getObjects(),
+       (int) GameObjectManager::getInstance()->getObjects()->size()
+    );
 }
 
 void StateManager::update() {
@@ -40,54 +46,49 @@ void StateManager::update() {
     TimeManager* time = TimeManager::getInstance();
     int timesPlayed = 0;
     
-    while(playing) {
+    while (playing) {
+        // Timing start
         time->start();
         time->startDelta();
+        // Poll event
         while (SDL_PollEvent(&e)) {
-            // InputManager::update();
+            // TODO: InputManager update
         }
-        
+        // Start a new thread witht he graphics manager.
         std::thread graphicsThread(graphicsThreadUpdate);
+        // Update every gameObject
         GameObjectManager::getInstance()->update();
-        
+        // Wait for graphics
         graphicsThread.join();
-        
-        while(TimeManager::getInstance()->elapsed < frameRate) {
+        // Elapsed
+        while (TimeManager::getInstance()->elapsed < frameRate) {
             TimeManager::getInstance()->update();
         }
+        // Delta update
         time->delta();
-        printf("elapsed: %f, %f\n", TimeManager::getInstance()->elapsed, frameRate);
-        printf("times played: %i\n", timesPlayed);
+        // Times played update
         timesPlayed = 0;
-        
     }
+    finishedLoop = true;
+}
+
+bool waitUntilUpdateFinishes() {
+    while (StateManager::getInstance()->finishedLoop) {}
+    
+    GameObjectManager::getInstance()->end();
+    GraphicsManager::getInstance()->end();
+    PhysicsManager::getInstance()->end();
+    
+    if (StateManager::getInstance()->nextScene) {
+        StateManager::getInstance()->start(StateManager::getInstance()->nextScene);
+    } else {
+        // TODO: Exit app.
+    }
+    
+    return true;
 }
 
 void StateManager::end() {
-    GameObjectManager::getInstance()->end();
-    GraphicsManager::getInstance()->end();
+    playing = false;
+    std::thread thread(waitUntilUpdateFinishes);
 }
-//
-//SDL_Event e;
-//bool quit = false;
-//while (!quit){
-//    while (SDL_PollEvent(&e)) {
-//        InputManager* input = InputManager::createInstance();
-//        bool up = input->GetAxis(ARROW_UP);
-//        bool down = input->GetAxis(ARROW_DOWN);
-//        if (e.type == SDL_QUIT){
-//            quit = true;
-//        }
-//        w->clearWindow();
-//        gm->y += (int)up * 10;
-//        gm->y += (int)down * -10;
-//
-//        gm2->y += (int)up * 10;
-//        gm2->y += (int)down * -10;
-//        gm->update();
-//        gm2->update();
-//        w->UpdateWindow();
-//    }
-//}
-//w->Destroy();
-//SDL_Quit();

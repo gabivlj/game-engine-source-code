@@ -19,10 +19,13 @@ bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
    for (int i = 0; i < scenes.size(); ++i) {
        if (scenes[i] == sceneToChangeTo) {
            StateManager* stateManager = StateManager::getInstance();
+           stateManager->nextScene = sceneToChangeTo;
            if (stateManager->playing) {
                stateManager->end();
+           } else {
+               stateManager->start(sceneToChangeTo);
            }
-           stateManager->start(scenes[i]);
+           
            return true;
        }
    }

@@ -36,6 +36,8 @@ private:
     // Current sprite.
     const Sprite* _sprite;
     bool instantiatedTest;
+    
+    
 public:
     // Variables
     transform form;
@@ -74,6 +76,8 @@ protected:
     void setSpriteIndex(int index) {
         _sprite = _sprites[index];
     }
+    
+    virtual void onCollide(GameObject*, Collider*) {}
     
 };
 
