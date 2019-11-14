@@ -13,24 +13,12 @@
 #include <iostream>
 #include <vector>
 #include "Vector.hpp"
+#include "Collider.hpp"
 #include "Sprite.hpp"
 
 static int GLOBAL_ID = 0;
 
-enum ColliderType {
-    NONE, AABB, CIRCULAR,
-};
 
-
-typedef struct {
-	ColliderType type;
-	transform collisioner;
-	bool from[4] = { // TOP, LEFT, BOTTOM, RIGHT
-		false,
-		false,
-		false,
-		false};
-} Collider;
 
 class PhysicsManager;
 class GameObjectManager;
