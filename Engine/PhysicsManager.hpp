@@ -24,9 +24,9 @@ private:
 	void start(std::vector<GameObject*>* gosToSet) { 
 		// for loop copying to gameObjects array...
 		for (int i = 0; i < gosToSet->size(); i++) {
-			if ((*gosToSet)[i]->_collider != NONE) {
-				gameObjects.push_back((*gosToSet)[i]);
-			}
+//			if ((*gosToSet)[i]->_collider != NONE) {
+//				gameObjects.push_back((*gosToSet)[i]);
+//			}
 		}
 	}
 	void end() { gameObjects.clear(); };

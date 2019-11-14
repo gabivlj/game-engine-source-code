@@ -15,6 +15,7 @@
 #include <queue>
 #include "Singleton.hpp"
 #include "Types/GameObject.hpp"
+#include "TimeManager.hpp"
 
 class StateManager;
 
@@ -41,8 +42,9 @@ private:
     }
     
     void update() {
+        TimeManager* t = TimeManager::getInstance();
         for (GameObject* _object : _objects) {
-            _object->update();
+            _object->update(t->deltaTime);
         }
         // Empty the queue
         while (!_actions.empty()) {

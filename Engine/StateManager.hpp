@@ -24,6 +24,7 @@ public:
     StateManager() {}
 private:
     
+    friend void graphicsThreadUpdate();
     friend SceneManager;
     void start(Scene*);
     void update();

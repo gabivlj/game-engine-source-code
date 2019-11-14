@@ -13,11 +13,13 @@
 #include <SDL2/SDL.h>
 #endif
 
+#include <thread>
 #include "StateManager.hpp"
 #include "Types/Scene.hpp"
 #include "GameObjectManager.hpp"
 #include "CameraManager.hpp"
 #include "GraphicsManager.hpp"
+#include "TimeManager.hpp"
 
 
 void StateManager::start(Scene* scene) {
@@ -28,16 +30,27 @@ void StateManager::start(Scene* scene) {
     update();
 }
 
+void graphicsThreadUpdate() {
+    GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects()->size());
+}
+
 void StateManager::update() {
     SDL_Event e;
+    float frameRate = 60 / 1000;
+    TimeManager* time = TimeManager::getInstance();
     
     while(playing) {
+        time->start();
+        time->startDelta();
         while (SDL_PollEvent(&e)) {
             // InputManager::update();
         }
+        std::thread graphicsThread(graphicsThreadUpdate);
         GameObjectManager::getInstance()->update();
-        // TODO: multithreading
-        GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects()->size());
+        graphicsThread.join();
+        while(TimeManager::getInstance()->elapsed < frameRate)
+            TimeManager::getInstance()->update();
+        time->delta();
     }
 }
 
