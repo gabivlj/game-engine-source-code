@@ -17,9 +17,20 @@
 
 static int GLOBAL_ID = 0;
 
+enum Collider {
+    NONE, AABB, CIRCULAR,
+};
+
+class PhysicsManager;
+class GameObjectManager;
+
 class GameObject {
 private:
     
+    friend PhysicsManager;
+    friend GameObjectManager;
+    
+    Collider _collider;
     int _instanceID;
     std::string _tag;
     std::vector<const Sprite*> _sprites;
@@ -54,6 +65,11 @@ public:
     }
 
     virtual void update();
+    
+    void setCollider(Collider col) {
+        _collider = col;
+        // PhysicsManager::... -> informChange(this, col);
+    }
     
 protected:
     void setSpriteIndex(int index) {

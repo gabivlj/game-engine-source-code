@@ -24,6 +24,7 @@
 #include "Types/GameObject.hpp"
 #include "Types/Utils.hpp"
 #include "StateManager.hpp"
+#include "CameraManager.hpp"
 #include <map>
 #include <string>
 #include <stdio.h>
@@ -40,7 +41,11 @@ private:
     
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
-        const SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
+        SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
+        CameraManager* camera = CameraManager::getInstance();
+        endRect->x = endRect.x - camera->position.x;
+        endRect->y = endRect.x - camera->position.y;
+        
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We
         // also pass the endRect which is where we want it rendered (the position of the gameObject).
         WindowManager::getInstance()->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));
@@ -76,6 +81,9 @@ private:
             GameObject* gameObject = (*gameObjects)[i];
             render(gameObject);
         }
+        CameraManager* camera = CameraManager::getInstance();
+        SDL_Rect topLeftViewport = *ConversionSDL::pdtsdlrect(&camera->viewportPosition, &camera->viewportDimensions);
+        SDL_RenderSetViewport(WindowManager::getInstance()->Renderer(), &topLeftViewport);
         WindowManager::getInstance()->updateWindow();
         return true;
     }

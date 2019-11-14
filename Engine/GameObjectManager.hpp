@@ -37,9 +37,10 @@ private:
         }
         // Empty the queue
         while (!_instantiated.empty()) {
-            printf("%i\n", _instantiated.size());
             _objects.push_back(_instantiated.front());
+            // PhysicManager::getInstance()->add(_instantiated.front());
             _instantiated.pop();
+            
         }
     }
     

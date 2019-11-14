@@ -50,6 +50,10 @@ public:
         return w;
     }
     
+    SDL_Renderer* Renderer() {
+        return r;
+    }
+    
     SDL_Texture* createTexture(SDL_Surface* surface, const SDL_Rect* rect) {
         if (!r) {
             printf("\nRenderer not initalized\n");
