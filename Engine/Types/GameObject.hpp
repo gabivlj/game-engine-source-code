@@ -15,7 +15,7 @@
 #include "Vector.hpp"
 #include "Sprite.hpp"
 
-static int GLOBAL_ID;
+static int GLOBAL_ID = 0;
 
 class GameObject {
 private:
