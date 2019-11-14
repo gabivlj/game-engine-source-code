@@ -14,8 +14,8 @@ int main(int arg, char* args[]) {
     GraphicsManager* graphics = GraphicsManager::getInstance();
     SceneManager* scenes = SceneManager::getInstance();
     
-    CameraManager::getInstance()->setPosition(vec2{0, 0});
-    CameraManager::getInstance()->setSize(dimensions{200, 200});
+    CameraManager::getInstance()->setPosition(vec2{40, 40});
+    CameraManager::getInstance()->setSize(dimensions{1000, 1000});
     
     Scene* scene = new Scene();
     transform tr = transform{};
