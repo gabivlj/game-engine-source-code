@@ -43,9 +43,12 @@ private:
         // Get the rect of the gameObject
         SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
         CameraManager* camera = CameraManager::getInstance();
-        endRect->x = endRect.x - camera->position.x;
-        endRect->y = endRect.x - camera->position.y;
-        
+        WindowManager* W = WindowManager::getInstance();
+        endRect->x = endRect->x - camera->position.x;
+        endRect->y = endRect->x - camera->position.y;
+        endRect->w = endRect->w;
+        endRect->h = endRect->h;
+        SDL_RenderSetLogicalSize(W->Renderer(), camera->size.width, camera->size.height);
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We
         // also pass the endRect which is where we want it rendered (the position of the gameObject).
         WindowManager::getInstance()->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));

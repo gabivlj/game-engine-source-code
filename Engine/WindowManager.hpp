@@ -31,9 +31,14 @@ public:
      * @param SCREEN_WIDTH The screen width
      * @description Initializes the window.
      */
+    int SCREEN_H = 1000;
+    int SCREEN_W = 1000;
+    
     void initialize (int SCREEN_HEIGHT, int SCREEN_WIDTH) {
         if (initialized) return;
         initialized = true;
+        SCREEN_W = SCREEN_WIDTH;
+        SCREEN_H = SCREEN_HEIGHT;
         w = SDL_CreateWindow("My game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
         s = SDL_GetWindowSurface(w);
         r = SDL_GetRenderer(w);
