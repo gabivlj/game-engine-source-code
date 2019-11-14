@@ -18,11 +18,20 @@
 
 class StateManager;
 
+enum TypeOfAction {
+    INSTANTIATE, DELETE,
+};
+
+typedef struct {
+    GameObject* gameObjectToApply;
+    TypeOfAction action;
+} Actions;
+
 class GameObjectManager : public Singleton<GameObjectManager> {
 private:
     
     std::vector<GameObject*> _objects;
-    std::queue<GameObject*> _instantiated;
+    std::queue<Actions> _actions;
     
     friend StateManager;
     
@@ -36,11 +45,26 @@ private:
             _object->update();
         }
         // Empty the queue
-        while (!_instantiated.empty()) {
-            _objects.push_back(_instantiated.front());
-            // PhysicManager::getInstance()->add(_instantiated.front());
-            _instantiated.pop();
-            
+        while (!_actions.empty()) {
+            Actions object = _actions.front();
+            decideAction(&object);
+            _actions.pop();
+        }        
+    }
+    
+    void decideAction(Actions* action) {
+        switch(action->action) {
+            case TypeOfAction::INSTANTIATE:
+                _objects.push_back(action->gameObjectToApply);
+                return;
+            case TypeOfAction::DELETE:
+                for (int i = 0; i < _objects.size(); ++i) if (_objects[i] == action->gameObjectToApply) {
+                    delete _objects[i]; return;
+                }
+                std::cout << "Error on runtime: No object found on deleting...";
+                return;
+            default:
+                return;
         }
     }
     
@@ -52,12 +76,17 @@ public:
     std::vector<GameObject*>* getObjects() { return &_objects; }
     
     GameObjectManager() {
-        _objects = std::vector<GameObject*>();
-        _instantiated = std::queue<GameObject*>();
+        _actions = std::queue<Actions>();
+    }
+    
+    bool Destroy(GameObject* gameObject) {
+        _actions.push(Actions{gameObject, TypeOfAction::DELETE});
+        return true;
     }
     
     bool Instantiate(GameObject* gameObject) {
-        _instantiated.push(gameObject);
+        _actions.push(Actions{gameObject, TypeOfAction::INSTANTIATE});
+//        _instantiated.push(gameObject);
         return true;
     }
     

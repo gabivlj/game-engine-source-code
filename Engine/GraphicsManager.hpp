@@ -42,16 +42,17 @@ private:
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
         SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
+        // Declarations
         CameraManager* camera = CameraManager::getInstance();
         WindowManager* W = WindowManager::getInstance();
+        // Modify rect of the sprite depending on camera position.
         endRect->x = endRect->x - camera->position.x;
         endRect->y = endRect->x - camera->position.y;
-        endRect->w = endRect->w;
-        endRect->h = endRect->h;
+        // Set logical size of the camera.
         SDL_RenderSetLogicalSize(W->Renderer(), camera->size.width, camera->size.height);
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We
         // also pass the endRect which is where we want it rendered (the position of the gameObject).
-        WindowManager::getInstance()->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));
+        W->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));
     }
     
     /**

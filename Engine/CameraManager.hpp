@@ -14,6 +14,8 @@
 #include "Types/Vector.hpp"
 
 class GraphicsManager;
+class GameObject;
+class StateManager;
 
 class CameraManager : public Singleton<CameraManager>{
 public:
@@ -31,6 +33,8 @@ public:
 private:
     
     friend GraphicsManager;
+    friend StateManager;
+    friend GameObject;
     
     vec2 position;
     dimensions size;

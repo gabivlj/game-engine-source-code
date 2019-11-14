@@ -16,6 +16,7 @@
 #include "StateManager.hpp"
 #include "Types/Scene.hpp"
 #include "GameObjectManager.hpp"
+#include "CameraManager.hpp"
 #include "GraphicsManager.hpp"
 
 
@@ -33,9 +34,8 @@ void StateManager::update() {
     while(playing) {
         while (SDL_PollEvent(&e)) {
             // InputManager::update();
-            
         }
-        GameObjectManager::getInstance()->update();        
+        GameObjectManager::getInstance()->update();
         // TODO: multithreading
         GraphicsManager::getInstance()->update(GameObjectManager::getInstance()->getObjects(), GameObjectManager::getInstance()->getObjects()->size());
     }
