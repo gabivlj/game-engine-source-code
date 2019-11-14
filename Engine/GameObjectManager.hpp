@@ -49,7 +49,7 @@ private:
             Actions object = _actions.front();
             decideAction(&object);
             _actions.pop();
-        }        
+        }
     }
     
     void decideAction(Actions* action) {
@@ -58,9 +58,11 @@ private:
                 _objects.push_back(action->gameObjectToApply);
                 return;
             case TypeOfAction::DELETE:
-                for (int i = 0; i < _objects.size(); ++i) if (_objects[i] == action->gameObjectToApply) {
-                    delete _objects[i]; return;
-                }
+                for (int i = 0; i < _objects.size(); ++i)
+                    if (_objects[i] == action->gameObjectToApply) {
+                        _objects.erase(_objects.begin() + i);
+                        return;
+                    }
                 std::cout << "Error on runtime: No object found on deleting...";
                 return;
             default:
