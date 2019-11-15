@@ -15,6 +15,7 @@
 #include <queue>
 #include "Singleton.hpp"
 #include "Types/GameObject.hpp"
+#include "TimeManager.hpp"
 
 class StateManager;
 
@@ -34,6 +35,7 @@ private:
     std::queue<Actions> _actions;
     
     friend StateManager;
+    friend bool waitUntilUpdateFinishes();
     
     bool start(GameObject** gameObjects, int len) {
         for (int i = 0; i < len; ++i) _objects.push_back(gameObjects[i]);
@@ -41,8 +43,9 @@ private:
     }
     
     void update() {
+        TimeManager* t = TimeManager::getInstance();
         for (GameObject* _object : _objects) {
-            _object->update();
+            _object->update(t->deltaTime);
         }
         // Empty the queue
         while (!_actions.empty()) {

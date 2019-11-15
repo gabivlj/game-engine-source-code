@@ -11,4 +11,4 @@
 #include "../GameObjectManager.hpp"
 
 
-void GameObject::update() {}
+void GameObject::update(double deltaTime) {}

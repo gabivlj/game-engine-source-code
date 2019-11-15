@@ -13,23 +13,12 @@
 #include <iostream>
 #include <vector>
 #include "Vector.hpp"
+#include "Collider.hpp"
 #include "Sprite.hpp"
 
 static int GLOBAL_ID = 0;
 
-enum ColliderType {
-    NONE, AABB, CIRCULAR,
-};
 
-typedef struct {
-	ColliderType type;
-	transform collisioner;
-	bool from[4] = { // TOP, LEFT, BOTTOM, RIGHT
-		false,
-		false,
-		false,
-		false};
-} Collider;
 
 class PhysicsManager;
 class GameObjectManager;
@@ -47,6 +36,8 @@ private:
     // Current sprite.
     const Sprite* _sprite;
     bool instantiatedTest;
+    
+    
 public:
     // Variables
     transform form;
@@ -74,7 +65,7 @@ public:
         return _sprite;
     }
 
-    virtual void update();
+    virtual void update(double deltaTime);
     
     void setCollider(Collider col) {
         _collider = col;
@@ -85,6 +76,8 @@ protected:
     void setSpriteIndex(int index) {
         _sprite = _sprites[index];
     }
+    
+    virtual void onCollide(GameObject*, Collider*) {}
     
 };
 

@@ -35,6 +35,9 @@ private:
     
     
     friend StateManager;
+    friend void graphicsThreadUpdate();
+    friend bool waitUntilUpdateFinishes();
+    
     
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;
@@ -47,7 +50,7 @@ private:
         WindowManager* W = WindowManager::getInstance();
         // Modify rect of the sprite depending on camera position.
         endRect->x = endRect->x - camera->position.x;
-        endRect->y = endRect->x - camera->position.y;
+        endRect->y = endRect->y - camera->position.y;
         // Set logical size of the camera.
         SDL_RenderSetLogicalSize(W->Renderer(), camera->size.width, camera->size.height);
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We

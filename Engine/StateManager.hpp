@@ -21,13 +21,18 @@ class SceneManager;
 class StateManager : public Singleton<StateManager> {
 public:
     bool playing = false;
+    bool finishedLoop = false;
     StateManager() {}
-private:
     
+private:
+
+    friend bool waitUntilUpdateFinishes();
+    friend void graphicsThreadUpdate();
     friend SceneManager;
     void start(Scene*);
     void update();
     void end();
+    Scene* nextScene;
     
 protected:
     
