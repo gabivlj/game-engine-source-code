@@ -21,10 +21,6 @@ enum ColliderType {
     NONE, AABB, CIRCULAR,
 };
 
-enum From {
-	TOP, LEFT, BOTTOM, RIGHT
-};
-
 typedef struct {
 	ColliderType type;
 	transform collisioner;
