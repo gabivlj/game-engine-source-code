@@ -5,7 +5,7 @@
 ///  @@@@@@ This main is a test target for checking that all the libraries of this project work properly! @@@@@@
 ///             If Engine19 main.cpp is able to create the target, all is going right in your project configuration.
 /// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+/// @github: https://github.com/gabivlj/game-engine-source-code
 #include <iostream>
 #include "./Engine/Types/Scene.hpp"
 #include "./Engine/Engine.hpp"
@@ -13,11 +13,9 @@
 
 int main(int arg, char* args[]) {
     GraphicsManager* graphics = GraphicsManager::getInstance();
-    SceneManager* scenes = SceneManager::getInstance();
-    
+    SceneManager* scenes = SceneManager::getInstance();    
     CameraManager::getInstance()->setPosition(vec2{40, 40});
     CameraManager::getInstance()->setSize(dimensions{1000, 1000});
-    
     Scene* scene = new Scene();
     transform tr = transform{};
     tr.position = vec2{0, 0};

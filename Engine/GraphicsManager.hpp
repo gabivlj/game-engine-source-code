@@ -44,7 +44,7 @@ private:
     
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
-        SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
+        SDL_Rect* endRect = ConversionSDL::tosdlrect(&gameObject->form.position, &gameObject->form.dimension);
         // Declarations
         CameraManager* camera = CameraManager::getInstance();
         WindowManager* W = WindowManager::getInstance();
@@ -89,7 +89,7 @@ private:
             render(gameObject);
         }
         CameraManager* camera = CameraManager::getInstance();
-        SDL_Rect topLeftViewport = *ConversionSDL::pdtsdlrect(&camera->viewportPosition, &camera->viewportDimensions);
+        SDL_Rect topLeftViewport = *ConversionSDL::tosdlrect(&camera->viewportPosition, &camera->viewportDimensions);
         SDL_RenderSetViewport(WindowManager::getInstance()->Renderer(), &topLeftViewport);
         WindowManager::getInstance()->updateWindow();
         return true;
@@ -106,6 +106,11 @@ private:
        
 
 public:
+    
+    ~GraphicsManager() {
+        textures.clear();
+        positions.clear();
+    }
    
     GraphicsManager() {
         textures = std::map<const Sprite*, SDL_Texture*>();
@@ -125,7 +130,7 @@ public:
         SDL_Surface* surface = loadSurface(source);
         dimensions.width = surface->w;
         dimensions.height = surface->h;
-        SDL_Rect* rect = ConversionSDL::pdtsdlrect(&position, &dimensions);
+        SDL_Rect* rect = ConversionSDL::tosdlrect(&position, &dimensions);
         SDL_Texture* texture = WindowManager::getInstance()->createTexture(surface, rect);
         positions.insert(std::pair<const Sprite*, SDL_Rect*> (sprite, rect));
         textures.insert(std::pair<const Sprite*, SDL_Texture*> (sprite, texture));

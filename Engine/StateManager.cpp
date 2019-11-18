@@ -42,7 +42,8 @@ void graphicsThreadUpdate() {
 
 void StateManager::update() {
     SDL_Event e;
-    double frameRate = 60.0 / 1000.0;
+    double frameRate = 30.0 / 1000.0;
+//    double updateRate = 30.0 / 1000.0;
     TimeManager* time = TimeManager::getInstance();
     int timesPlayed = 0;
     
@@ -60,6 +61,7 @@ void StateManager::update() {
         GameObjectManager::getInstance()->update();
         // Wait for graphics
         graphicsThread.join();
+        GameObjectManager::getInstance()->finish();
         // Elapsed
         while (TimeManager::getInstance()->elapsed < frameRate) {
             TimeManager::getInstance()->update();

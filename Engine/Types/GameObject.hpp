@@ -33,6 +33,7 @@ private:
     int _instanceID;
     std::string _tag;
     std::vector<const Sprite*> _sprites;
+    int spriteIndex;
     // Current sprite.
     const Sprite* _sprite;
     bool instantiatedTest;
@@ -51,6 +52,13 @@ public:
         return t == _tag;
     }
     
+    ~GameObject() {
+        _sprites.clear();
+        spriteIndex = 0;
+        _sprite = 0x0;
+        _tag = "";
+    }
+    
     GameObject(::transform t, std::string tag, const Sprite* sprite) {
         instantiatedTest = tag == "prueba";        
         form = t;
@@ -67,15 +75,27 @@ public:
 
     virtual void update(double deltaTime);
     
+    virtual void start() {}
+    
     void setCollider(Collider col) {
         _collider = col;
         // PhysicsManager::... -> informChange(this, col);
     }
     
+    /**
+     * @description Changes in shared pointers will be made at the end when no one is accessing it for sure.
+     */
+    void _end() {
+        if (spriteIndex < _sprites.size())
+            _sprite = _sprites[spriteIndex];
+    }
+    
 protected:
     void setSpriteIndex(int index) {
-        _sprite = _sprites[index];
+        spriteIndex = index;
     }
+    
+   
     
     virtual void onCollide(GameObject*, Collider*) {}
     

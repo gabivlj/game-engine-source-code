@@ -38,7 +38,7 @@ private:
     friend bool waitUntilUpdateFinishes();
     
     bool start(GameObject** gameObjects, int len) {
-        for (int i = 0; i < len; ++i) _objects.push_back(gameObjects[i]);
+        for (int i = 0; i < len; ++i) { _objects.push_back(gameObjects[i]); gameObjects[i]->start(); gameObjects[i]->_end(); }
         return true;
     }
     
@@ -53,6 +53,13 @@ private:
             decideAction(&object);
             _actions.pop();
         }
+    }
+    
+    /**
+     * @description When finishing a frame rendering, this will execute save actions on shared thread pointers on each GameObject.
+     */
+    void finish() {
+        for (int i = 0; i < _objects.size(); ++i) { _objects[i]->_end(); }
     }
     
     void decideAction(Actions* action) {
@@ -75,6 +82,11 @@ private:
     
     void end() {
         _objects.clear();
+        // empty queue if there are actions left.
+        if (!_actions.empty()) {
+            std::queue<Actions> empty;
+            std::swap(_actions, empty);
+        }
     }
     
 public:
@@ -91,7 +103,6 @@ public:
     
     bool Instantiate(GameObject* gameObject) {
         _actions.push(Actions{gameObject, TypeOfAction::INSTANTIATE});
-//        _instantiated.push(gameObject);
         return true;
     }
     
