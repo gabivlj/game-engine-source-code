@@ -86,6 +86,17 @@ public:
     void updateWindow() {
         SDL_RenderPresent(r);
     }
+
+    void drawLines(const SDL_Point* points, int len) {
+        SDL_RenderDrawLines(r, points, len);
+    }
+    
+    void renderSquare(const SDL_Rect* rect) {
+        SDL_SetRenderDrawColor(r, 100, 100, 100, 1);
+        SDL_RenderDrawRect(r, rect);
+        SDL_FRect rectF = {static_cast<float>(rect->x), static_cast<float>(rect->y), static_cast<float>(rect->w), static_cast<float>(rect->h)};
+        SDL_RenderFillRectF(r, &rectF);
+    }
     
     /**
      * @param t Texture to render

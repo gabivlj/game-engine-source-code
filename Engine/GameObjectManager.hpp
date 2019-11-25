@@ -16,6 +16,7 @@
 #include "Singleton.hpp"
 #include "Types/GameObject.hpp"
 #include "TimeManager.hpp"
+#include "GraphicsManager.hpp"
 
 class StateManager;
 
@@ -34,8 +35,10 @@ private:
     std::vector<GameObject*> _objects;
     std::queue<Actions> _actions;
     
+    friend void graphicsThreadUpdate();
     friend StateManager;
     friend bool waitUntilUpdateFinishes();
+    
     
     bool start(GameObject** gameObjects, int len) {
         for (int i = 0; i < len; ++i) { _objects.push_back(gameObjects[i]); gameObjects[i]->start(); gameObjects[i]->_end(); }
@@ -46,6 +49,7 @@ private:
         TimeManager* t = TimeManager::getInstance();
         for (GameObject* _object : _objects) {
             _object->update(t->deltaTime);
+            _object->_update();
         }
         // Empty the queue
         while (!_actions.empty()) {
@@ -105,6 +109,10 @@ public:
         _actions.push(Actions{gameObject, TypeOfAction::INSTANTIATE});
         return true;
     }
+    
+//    void drawLine(vec2 point1, vec2 point2) {
+//        GraphicsManager::getInstance()->drawLine(point1, point2);
+//    }
     
 };
 

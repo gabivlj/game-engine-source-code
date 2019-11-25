@@ -23,14 +23,59 @@ int main(int arg, char* args[]) {
     tr.dimension.height = 100;
     // Sprite declaration
     const Sprite *sp = graphics->loadSprite("/loaded.png", dimensions{10, 10}, vec2{0, 0});
-    Square* g = new Square(tr, "gm", sp, 10);
+    Square* g = new Square(tr, "gm", sp, 50);
     tr.dimension.height += 100;
     tr.position.x += 150;
     GameObject* g2 = new GameObject(tr, "gm", sp);
+    
+    Square* g3 = new Square(tr, "gm", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    
+    Square* g4 = new Square(tr, "gm2", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    
+    Square* g5 = new Square(tr, "gm2", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    Square* g6 = new Square(tr, "gm2", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    Square* g7 = new Square(tr, "gm2", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    Square* g8 = new Square(tr, "gm2", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    Square* g9 = new Square(tr, "gm3", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    Square* g10 = new Square(tr, "gm3", sp, 50);
+    tr.position.x += 15;
+    tr.position.y += 15;
+    
+    Square* g11 = new Square(tr, "gm", sp, 50);
+
     // Object adding to scene
-    scene->addObject(g);
-    scene->addObject(g2);
+    tr.position.x += 115;
+    tr.position.y += 55;
+    GameObject* SQUARE = new GameObject(tr, "square");
+    scene->addObject(SQUARE);
+//    scene->addObject(g);
+//    scene->addObject(g2);
+//    scene->addObject(g2);
+//    scene->addObject(g3);
+//    scene->addObject(g4);
+//    scene->addObject(g5);
+//    scene->addObject(g6);
+//    scene->addObject(g7);
+//    scene->addObject(g8);
+//    scene->addObject(g9);
+//    scene->addObject(g10);
+    scene->addObject(g11);
     scenes->addScene(scene);
+        
     // Play game...
     scenes->changeToScene(scene);
 }

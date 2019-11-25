@@ -13,6 +13,7 @@
 #include "../CameraManager.hpp"
 #include "../WindowManager.hpp"
 #include "../Types/GameObject.hpp"
+#include "../GameObjectHelper.hpp"
 
 class Square : public GameObject {
     float speed = 10;
@@ -21,14 +22,12 @@ public:
         speed = spd;
     }
     
-    void update(double deltaTime) override {
-        if (form.position.x > 50 || form.position.x < 0) {
+    void update(double deltaTime) override {       
+        if (form.position.x > 300 || form.position.x < 0) {
             speed *= -1;
         }
-        form.position.x += speed;
-//        WindowManager* w = WindowManager::getInstance();
-//        vec2 sizes = vec2{(static_cast<float>(w->SCREEN_W/2)), static_cast<float>((w->SCREEN_H/2))};
-//        CameraManager::getInstance()->setPosition(vec2{ form.position.x - sizes.x, form.position.y - sizes.y});
+        form.position.x += speed * deltaTime;
+        form.position.y += speed * deltaTime;
     }
     
 protected:

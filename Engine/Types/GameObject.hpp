@@ -19,15 +19,18 @@
 static int GLOBAL_ID = 0;
 
 
-
 class PhysicsManager;
 class GameObjectManager;
+class GraphicsManager;
 
 class GameObject {
 private:
     
     friend PhysicsManager;
     friend GameObjectManager;
+    friend GraphicsManager;
+    
+//    bool _endedFrame = false;
     
     Collider _collider;
     int _instanceID;
@@ -37,11 +40,13 @@ private:
     // Current sprite.
     const Sprite* _sprite;
     bool instantiatedTest;
-    
+    transform _formRender;
     
 public:
     // Variables
     transform form;
+    
+    bool _endedFrame = false;
     
     // Methods
     const int getInstanceID() {
@@ -69,7 +74,18 @@ public:
         _instanceID = GLOBAL_ID++;
     }
     
+    GameObject(::transform t, std::string tag) {
+        instantiatedTest = tag == "prueba";
+        form = t;
+        _tag = tag;
+        _sprites = std::vector<const Sprite*>();
+        _sprite = 0;
+//        setSpriteIndex(1);
+        _instanceID = GLOBAL_ID++;
+    }
+    
     const Sprite* sprite() {
+        
         return _sprite;
     }
 
@@ -85,12 +101,13 @@ public:
     /**
      * @description Changes in shared pointers will be made at the end when no one is accessing it for sure.
      */
-    void _end() {
-        if (spriteIndex < _sprites.size())
-            _sprite = _sprites[spriteIndex];
+    void _end();
+    
+    void _update() {
     }
     
 protected:
+
     void setSpriteIndex(int index) {
         spriteIndex = index;
     }

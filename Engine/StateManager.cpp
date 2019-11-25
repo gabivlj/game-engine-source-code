@@ -34,42 +34,59 @@ void StateManager::start(Scene* scene) {
 }
 
 void graphicsThreadUpdate() {
-    GraphicsManager::getInstance()->update(
-       GameObjectManager::getInstance()->getObjects(),
-       (int) GameObjectManager::getInstance()->getObjects()->size()
-    );
-}
+//    double frameRate = 0.0000005;
 
-void StateManager::update() {
-    SDL_Event e;
-    double frameRate = 30.0 / 1000.0;
-//    double updateRate = 30.0 / 1000.0;
-    TimeManager* time = TimeManager::getInstance();
+//
+//        TimeManager::getInstance()->start();
+//        GraphicsManager::getInstance()->update(
+//           GameObjectManager::getInstance()->getObjects(),
+//           (int) GameObjectManager::getInstance()->getObjects()->size()
+//        );
+//        while (TimeManager::getInstance()->elapsed < frameRate) {
+//            TimeManager::getInstance()->update();
+//        }
+//        GameObjectManager::getInstance()->finish();
+//    }
     int timesPlayed = 0;
+    TimeManager* time = TimeManager::getInstance();
     
-    while (playing) {
-        // Timing start
-        time->start();
+    while(StateManager::getInstance()->playing && !StateManager::getInstance()->finishedLoop) {
         time->startDelta();
-        // Poll event
-        while (SDL_PollEvent(&e)) {
-            // TODO: InputManager update
-        }
-        // Start a new thread witht he graphics manager.
-        std::thread graphicsThread(graphicsThreadUpdate);
         // Update every gameObject
         GameObjectManager::getInstance()->update();
-        // Wait for graphics
-        graphicsThread.join();
-        GameObjectManager::getInstance()->finish();
         // Elapsed
-        while (TimeManager::getInstance()->elapsed < frameRate) {
-            TimeManager::getInstance()->update();
-        }
         // Delta update
         time->delta();
         // Times played update
         timesPlayed = 0;
+    }
+}
+
+void StateManager::update() {
+    SDL_Event e;
+   
+//    double updateRate = 30.0 / 1000.0;
+    TimeManager* time = TimeManager::getInstance();
+    // Start a new thread witht he graphics manager.
+    std::thread graphicsThread(graphicsThreadUpdate);
+    double frameRate = 30.0 / 1000.0;
+    while (playing) {
+        // Timing start
+        time->start();
+        
+        // Poll event
+        while (SDL_PollEvent(&e)) {
+            // TODO: InputManager update
+        }
+        TimeManager::getInstance()->start();
+        GraphicsManager::getInstance()->update(
+         GameObjectManager::getInstance()->getObjects(),
+         (int) GameObjectManager::getInstance()->getObjects()->size()
+        );
+         while (TimeManager::getInstance()->elapsed < frameRate) {
+                  TimeManager::getInstance()->update();
+         }
+        GameObjectManager::getInstance()->finish();
     }
     finishedLoop = true;
 }
