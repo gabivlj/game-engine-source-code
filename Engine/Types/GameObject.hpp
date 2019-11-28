@@ -32,7 +32,7 @@ private:
     
 //    bool _endedFrame = false;
     
-    Collider _collider;
+    ColType _collider;
     int _instanceID;
     std::string _tag;
     std::vector<const Sprite*> _sprites;
@@ -93,7 +93,7 @@ public:
     
     virtual void start() {}
     
-    void setCollider(Collider col) {
+    void setCollider(ColType col) {
         _collider = col;
         // PhysicsManager::... -> informChange(this, col);
     }
@@ -114,7 +114,7 @@ protected:
     
    
     
-    virtual void onCollide(GameObject*, Collider*) {}
+    virtual void onCollide(GameObject*, ColType*) {}
     
 };
 

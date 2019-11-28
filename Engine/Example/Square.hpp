@@ -34,7 +34,7 @@ public:
     }
     
 protected:
-    void onCollide(GameObject *go, Collider* collider) override {
+    void onCollide(GameObject *go, ColType* collider) override {
     }
 };
 
