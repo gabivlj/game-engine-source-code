@@ -27,21 +27,12 @@
 #include <stdio.h>
 #include "./Singleton.hpp"
 
+// Press operation
 #define PRESS(a, b) ((a ^ b) & b) == b ? a ^ b : b
-#define KEY_UP(a, b) ((a ^ b) & b) == b ? a ^ b : a ^ b
+// Key Up Method definition
+#define KEY_UP(a, b) a ^ b
 
 typedef u_int8_t key;
-//
-//void asdsdsd(u_int8_t n);
-//
-//void asdsdsd(u_int8_t n) {
-//    /* step 1 */
-//      if (n > 1)
-//          asdsdsd(n/2);
-//
-//      /* step 2 */
-//      printf("%d", n % 2);
-//}
 
 class StateManager;
 
@@ -83,7 +74,7 @@ class InputManager : public Singleton<InputManager> {
                 printf("%d", inputs);
                 break;
             case SDLK_DOWN:
-                inputs = KEY_UP(inputs, DOWN);                
+                inputs = KEY_UP(inputs, DOWN);
                 break;
             default:
                 break;
