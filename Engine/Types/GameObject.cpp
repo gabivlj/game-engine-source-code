@@ -21,3 +21,4 @@ void GameObject::_end() {
     _formRender = form;    
     _endedFrame = true;
 }
+

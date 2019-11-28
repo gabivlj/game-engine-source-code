@@ -20,6 +20,7 @@
 #include "CameraManager.hpp"
 #include "GraphicsManager.hpp"
 #include "TimeManager.hpp"
+#include "InputManager.hpp"
 #include "PhysicsManager.hpp"
 
 
@@ -34,23 +35,10 @@ void StateManager::start(Scene* scene) {
 }
 
 void graphicsThreadUpdate() {
-//    double frameRate = 0.0000005;
-
-//
-//        TimeManager::getInstance()->start();
-//        GraphicsManager::getInstance()->update(
-//           GameObjectManager::getInstance()->getObjects(),
-//           (int) GameObjectManager::getInstance()->getObjects()->size()
-//        );
-//        while (TimeManager::getInstance()->elapsed < frameRate) {
-//            TimeManager::getInstance()->update();
-//        }
-//        GameObjectManager::getInstance()->finish();
-//    }
     int timesPlayed = 0;
     TimeManager* time = TimeManager::getInstance();
     
-    while(StateManager::getInstance()->playing && !StateManager::getInstance()->finishedLoop) {
+    while (StateManager::getInstance()->playing && !StateManager::getInstance()->finishedLoop) {
         time->startDelta();
         // Update every gameObject
         GameObjectManager::getInstance()->update();
@@ -64,10 +52,8 @@ void graphicsThreadUpdate() {
 
 void StateManager::update() {
     SDL_Event e;
-   
-//    double updateRate = 30.0 / 1000.0;
     TimeManager* time = TimeManager::getInstance();
-    // Start a new thread witht he graphics manager.
+    // Start a new thread with every manager (Except the graphicsManager)
     std::thread graphicsThread(graphicsThreadUpdate);
     double frameRate = 30.0 / 1000.0;
     while (playing) {
@@ -76,12 +62,12 @@ void StateManager::update() {
         
         // Poll event
         while (SDL_PollEvent(&e)) {
-            // TODO: InputManager update
+            InputManager::getInstance()->update(e);
         }
         TimeManager::getInstance()->start();
         GraphicsManager::getInstance()->update(
-         GameObjectManager::getInstance()->getObjects(),
-         (int) GameObjectManager::getInstance()->getObjects()->size()
+             GameObjectManager::getInstance()->getObjects(),
+             (int) GameObjectManager::getInstance()->getObjects()->size()
         );
          while (TimeManager::getInstance()->elapsed < frameRate) {
                   TimeManager::getInstance()->update();
@@ -89,6 +75,7 @@ void StateManager::update() {
         GameObjectManager::getInstance()->finish();
     }
     finishedLoop = true;
+    graphicsThread.join();
 }
 
 bool waitUntilUpdateFinishes() {

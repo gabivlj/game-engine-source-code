@@ -19,9 +19,6 @@
 
 class StateManager;
 
-enum From {
-	TOP, LEFT, BOTTOM, RIGHT
-};
 
 class PhysicsManager : public Singleton<PhysicsManager> {
 private:

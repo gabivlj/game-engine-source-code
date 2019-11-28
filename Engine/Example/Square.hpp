@@ -11,23 +11,26 @@
 
 #include <stdio.h>
 #include "../CameraManager.hpp"
+#include "../InputManager.hpp"
 #include "../WindowManager.hpp"
 #include "../Types/GameObject.hpp"
 #include "../GameObjectHelper.hpp"
 
 class Square : public GameObject {
     float speed = 10;
+    InputManager* input;
 public:
     Square(::transform t, std::string tag, const Sprite* sprite, float spd) : GameObject(t, tag, sprite) {
         speed = spd;
+        input = InputManager::getInstance();
     }
     
     void update(double deltaTime) override {       
         if (form.position.x > 300 || form.position.x < 0) {
             speed *= -1;
         }
-        form.position.x += speed * deltaTime;
-        form.position.y += speed * deltaTime;
+        form.position.x += speed * deltaTime * (input->getInput(RIGHT) - input->getInput(LEFT));
+        form.position.y += speed * deltaTime * (input->getInput(DOWN) - input->getInput(UP));
     }
     
 protected:

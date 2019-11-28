@@ -35,6 +35,7 @@ class GameObjectHelper;
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
     
+    bool SAVE = false;
     
     friend StateManager;
     friend GameObjectHelper;
@@ -49,6 +50,10 @@ private:
     
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;
+    
+    void renderLine(line l) {
+        
+    }
     
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
@@ -96,12 +101,8 @@ private:
     }
     
     bool update(std::vector<GameObject*>* gameObjects, int length) {
-        
         WindowManager::getInstance()->clearWindow();
-        
-        
-        // TODO: Multithread these 2 actions?
-        
+        SAVE = false;
         for (int i = 0; i < length; ++i) {
             GameObject* gameObject = (*gameObjects)[i];
             gameObject->_endedFrame = false;
@@ -113,7 +114,7 @@ private:
         SDL_Rect topLeftViewport = *ConversionSDL::tosdlrect(&camera->viewportPosition, &camera->viewportDimensions);
         SDL_RenderSetViewport(WindowManager::getInstance()->Renderer(), &topLeftViewport);
         WindowManager::getInstance()->updateWindow();
-        
+        SAVE = true;
         return true;
     }
 
@@ -138,6 +139,7 @@ public:
         textures = std::map<const Sprite*, SDL_Texture*>();
         positions = std::map<const Sprite*, SDL_Rect*>();
         WindowManager::getInstance()->initialize(1000, 1000);
+        SAVE = true;
     }
     
     /**
@@ -148,6 +150,7 @@ public:
      * @description Loads a sprite. 1. Loads a surface. 2. Loads the texture from the surface and the SDL_Rect (the texture dimensions). 3. Adds it to the map of the textures and SDL_rects for rendering.
      */
     const Sprite* loadSprite(std::string source, dimensions dimensions, vec2 position) {
+        if (!SAVE) return NULL;
         const Sprite* sprite = new Sprite(source);
         SDL_Surface* surface = loadSurface(source);
         dimensions.width = surface->w;

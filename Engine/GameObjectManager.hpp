@@ -60,7 +60,7 @@ private:
     }
     
     /**
-     * @description When finishing a frame rendering, this will execute save actions on shared thread pointers on each GameObject.
+     * @summary When finishing a frame rendering, this will execute save actions on shared thread pointers on each GameObject.
      */
     void finish() {
         for (int i = 0; i < _objects.size(); ++i) { _objects[i]->_end(); }
