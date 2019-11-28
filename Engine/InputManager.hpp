@@ -13,6 +13,10 @@
 #define LEFT 0b00100000
 #define RIGHT 0b01000000
 #define DOWN 0b10000000
+#define W_K 0b00001000
+#define S_K 0b00000100
+#define A_K 0b00000010
+#define D_K 0b00000001
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -55,6 +59,18 @@ class InputManager : public Singleton<InputManager> {
            case SDLK_DOWN:
                inputs = PRESS(inputs, DOWN);
                break;
+           case SDLK_w:
+               inputs = PRESS(inputs, W_K);
+               break;
+           case SDLK_s:
+               inputs = PRESS(inputs, S_K);
+               break;
+           case SDLK_a:
+               inputs = PRESS(inputs, A_K);
+               break;
+           case SDLK_d:
+               inputs = PRESS(inputs, D_K);
+               break;
            default:
                break;
        }
@@ -70,10 +86,21 @@ class InputManager : public Singleton<InputManager> {
                 break;
             case SDLK_UP:
                 inputs = KEY_UP(inputs, UP);
-                printf("%d", inputs);
                 break;
             case SDLK_DOWN:
                 inputs = KEY_UP(inputs, DOWN);
+                break;
+            case SDLK_w:
+                inputs = KEY_UP(inputs, W_K);
+                break;
+            case SDLK_s:
+                inputs = KEY_UP(inputs, S_K);
+                break;
+            case SDLK_a:
+                inputs = KEY_UP(inputs, A_K);
+                break;
+            case SDLK_d:
+                inputs = KEY_UP(inputs, D_K);
                 break;
             default:
                 break;
