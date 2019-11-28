@@ -2,8 +2,8 @@
 //  GameObject.cpp
 //  Engine19
 //
-//  Created by Gabriel Villalonga Simón on 17/10/2019.
-//  Copyright © 2019 Gabriel Villalonga Simón. All rights reserved.
+//  Created by Created by Gabriel Villalonga Simón, Daniel Gracia Machado and Jorge Solano Pinilla on 17/10/2019.
+//  Copyright © 2019 Created by Gabriel Villalonga Simón, Daniel Gracia Machado and Jorge Solano Pinilla. All rights reserved.
 //
 
 #include "GameObject.hpp"
