@@ -28,9 +28,9 @@
 #include "./Singleton.hpp"
 
 // Press operation
-#define PRESS(a, b) ((a ^ b) & b) == b ? a ^ b : b
+#define PRESS(a, b) ((a ^ b) & b) == b ? a ^ b : a
 // Key Up Method definition
-#define KEY_UP(a, b) a ^ b
+#define KEY_UP(a, b) ((a ^ b) & b) == b ? a : a ^ b
 
 typedef u_int8_t key;
 
@@ -51,7 +51,6 @@ class InputManager : public Singleton<InputManager> {
                break;
            case SDLK_UP:
                inputs = PRESS(inputs, UP);
-               printf("%d", inputs);
                break;
            case SDLK_DOWN:
                inputs = PRESS(inputs, DOWN);
