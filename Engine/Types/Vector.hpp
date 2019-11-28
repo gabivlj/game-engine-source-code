@@ -71,4 +71,10 @@ struct transform{
     float rotation;
 };
 
+
+typedef struct {
+    vec2 point1;
+    vec2 point2;
+} line;
+
 #endif /* Vector_hpp */

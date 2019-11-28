@@ -24,19 +24,23 @@ private:
     
     friend StateManager;
     friend GameObjectManager;
+    friend void graphicsThreadUpdate();
     
     double deltaTime = 0.001;
     double elapsed = 0;
+    double elapsedUpdate = 0;
     clock_t begin;
     clock_t dt;
     
     void start() {
         begin = std::clock();
         elapsed = 0;
+        elapsedUpdate = 0;
     }
     
     void update() {        
         elapsed = (double)(std::clock() - begin ) / CLOCKS_PER_SEC ;
+        elapsedUpdate = (double)(std::clock() - begin ) / CLOCKS_PER_SEC ;
     }
     
     void startDelta() {

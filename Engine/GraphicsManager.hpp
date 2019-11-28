@@ -26,25 +26,33 @@
 #include "StateManager.hpp"
 #include "CameraManager.hpp"
 #include <map>
+#include <queue>
 #include <string>
 #include <stdio.h>
 
+class GameObjectHelper;
 
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
     
     
     friend StateManager;
+    friend GameObjectHelper;
     friend void graphicsThreadUpdate();
     friend bool waitUntilUpdateFinishes();
     
+    typedef struct {
+        SDL_Point p1;
+        SDL_Point p2;
+    } SDL_Line;
+
     
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;
     
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
-        SDL_Rect* endRect = ConversionSDL::pdtsdlrect(&gameObject->form.position, &gameObject->form.dimension);
+        SDL_Rect* endRect = ConversionSDL::tosdlrect(&gameObject->form.position, &gameObject->form.dimension);
         // Declarations
         CameraManager* camera = CameraManager::getInstance();
         WindowManager* W = WindowManager::getInstance();
@@ -55,7 +63,12 @@ private:
         SDL_RenderSetLogicalSize(W->Renderer(), camera->size.width, camera->size.height);
         // Get the SDL_Texture and SDL_Rect where we have stored the sprite and pass it to the render texture method. We
         // also pass the endRect which is where we want it rendered (the position of the gameObject).
-        W->renderTexture(textures.at(gameObject->sprite()), endRect, positions.at(gameObject->sprite()));
+        if (!gameObject->sprite()) {
+            W->renderSquare(endRect);
+            return;
+        }
+        SDL_Texture* texture = textures.at(gameObject->sprite());
+        W->renderTexture(texture, endRect, positions.at(gameObject->sprite()));
     }
     
     /**
@@ -83,18 +96,27 @@ private:
     }
     
     bool update(std::vector<GameObject*>* gameObjects, int length) {
+        
         WindowManager::getInstance()->clearWindow();
+        
+        
+        // TODO: Multithread these 2 actions?
+        
         for (int i = 0; i < length; ++i) {
             GameObject* gameObject = (*gameObjects)[i];
+            gameObject->_endedFrame = false;
             render(gameObject);
         }
+    
+        // Render.
         CameraManager* camera = CameraManager::getInstance();
-        SDL_Rect topLeftViewport = *ConversionSDL::pdtsdlrect(&camera->viewportPosition, &camera->viewportDimensions);
+        SDL_Rect topLeftViewport = *ConversionSDL::tosdlrect(&camera->viewportPosition, &camera->viewportDimensions);
         SDL_RenderSetViewport(WindowManager::getInstance()->Renderer(), &topLeftViewport);
         WindowManager::getInstance()->updateWindow();
+        
         return true;
     }
-    
+
     bool end() {
         
         return true;
@@ -106,6 +128,11 @@ private:
        
 
 public:
+    
+    ~GraphicsManager() {
+        textures.clear();
+        positions.clear();
+    }
    
     GraphicsManager() {
         textures = std::map<const Sprite*, SDL_Texture*>();
@@ -125,7 +152,7 @@ public:
         SDL_Surface* surface = loadSurface(source);
         dimensions.width = surface->w;
         dimensions.height = surface->h;
-        SDL_Rect* rect = ConversionSDL::pdtsdlrect(&position, &dimensions);
+        SDL_Rect* rect = ConversionSDL::tosdlrect(&position, &dimensions);
         SDL_Texture* texture = WindowManager::getInstance()->createTexture(surface, rect);
         positions.insert(std::pair<const Sprite*, SDL_Rect*> (sprite, rect));
         textures.insert(std::pair<const Sprite*, SDL_Texture*> (sprite, texture));

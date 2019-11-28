@@ -27,7 +27,7 @@ public:
      * @param dimension dimension
      * @description Position & dimension to SDL_Rect
      */
-    static SDL_Rect* pdtsdlrect(vec2* position, dimensions* dimension) {
+    static SDL_Rect* tosdlrect(vec2* position, dimensions* dimension) {
         SDL_Rect* rect = (SDL_Rect*) malloc(sizeof(SDL_Rect) * 1);
         rect->x = position->x;
         rect->y = position->y;

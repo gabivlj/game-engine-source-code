@@ -16,6 +16,7 @@
 #include "Singleton.hpp"
 #include "Types/GameObject.hpp"
 #include "TimeManager.hpp"
+#include "GraphicsManager.hpp"
 
 class StateManager;
 
@@ -34,11 +35,13 @@ private:
     std::vector<GameObject*> _objects;
     std::queue<Actions> _actions;
     
+    friend void graphicsThreadUpdate();
     friend StateManager;
     friend bool waitUntilUpdateFinishes();
     
+    
     bool start(GameObject** gameObjects, int len) {
-        for (int i = 0; i < len; ++i) _objects.push_back(gameObjects[i]);
+        for (int i = 0; i < len; ++i) { _objects.push_back(gameObjects[i]); gameObjects[i]->start(); gameObjects[i]->_end(); }
         return true;
     }
     
@@ -46,6 +49,7 @@ private:
         TimeManager* t = TimeManager::getInstance();
         for (GameObject* _object : _objects) {
             _object->update(t->deltaTime);
+            _object->_update();
         }
         // Empty the queue
         while (!_actions.empty()) {
@@ -53,6 +57,13 @@ private:
             decideAction(&object);
             _actions.pop();
         }
+    }
+    
+    /**
+     * @description When finishing a frame rendering, this will execute save actions on shared thread pointers on each GameObject.
+     */
+    void finish() {
+        for (int i = 0; i < _objects.size(); ++i) { _objects[i]->_end(); }
     }
     
     void decideAction(Actions* action) {
@@ -75,6 +86,11 @@ private:
     
     void end() {
         _objects.clear();
+        // empty queue if there are actions left.
+        if (!_actions.empty()) {
+            std::queue<Actions> empty;
+            std::swap(_actions, empty);
+        }
     }
     
 public:
@@ -91,9 +107,12 @@ public:
     
     bool Instantiate(GameObject* gameObject) {
         _actions.push(Actions{gameObject, TypeOfAction::INSTANTIATE});
-//        _instantiated.push(gameObject);
         return true;
     }
+    
+//    void drawLine(vec2 point1, vec2 point2) {
+//        GraphicsManager::getInstance()->drawLine(point1, point2);
+//    }
     
 };
 

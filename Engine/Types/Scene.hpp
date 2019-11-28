@@ -34,7 +34,12 @@ public:
         return true;
     }
     
-    Scene() { nGameObjects = 0; _gameObjects = (GameObject**) malloc(sizeof(GameObject*)); }
+    ~Scene() {
+        nGameObjects = 0;
+        _gameObjects = 0x0;
+    }
+    
+    Scene() { nGameObjects = 0; _gameObjects = (GameObject**) malloc(0); }
     
 };
 
