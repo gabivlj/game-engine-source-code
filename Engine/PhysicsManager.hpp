@@ -19,10 +19,6 @@
 
 class StateManager;
 
-enum From {
-	TOP, LEFT, BOTTOM, RIGHT
-};
-
 class PhysicsManager : public Singleton<PhysicsManager> {
 private:
     // Variables
@@ -32,7 +28,7 @@ private:
 	std::vector<GameObject*> gameObjects;
     
     // Methods
-	void start(std::vector<GameObject*>* gosToSet) { 
+	void start(std::vector<GameObject*>* gosToSet) {
 		// for loop copying to gameObjects array...
 		for (int i = 0; i < gosToSet->size(); i++) {
 			if ((*gosToSet)[i]->_collider.type != NONE) {
@@ -53,38 +49,23 @@ private:
 			}
 		}
 	}
-    
+
+	// GABI TODO: AABBCollision should call onCollide() and pass gameObject there!!
 	bool AABBCollision(GameObject* self, GameObject* other) {
 		if (self->form.position.y < other->form.position.y - other->form.dimension.height &&	// TOP
 			self->form.position.x < other->form.position.x + other->form.dimension.width &&		// LEFT
 			self->form.position.y + self->form.dimension.height < other->form.position.y &&		// BOTTOM
 			self->form.position.x + self->form.dimension.width < other->form.position.x) {		// RIGHT
+			// Calculate the side from where we collided
 			float dists[] = {
 				std::abs((self->form.position.y) - (other->form.position.y + other->form.dimension.height)),
 				std::abs((self->form.position.x) - (other->form.position.x + other->form.dimension.width)),
 				std::abs((self->form.position.y + self->form.dimension.height) - (other->form.position.y)),
 				std::abs((self->form.position.x + self->form.dimension.width) - (other->form.position.x))
 			};
-            // GABI TODO: AABBCollision should call onCollide() and pass gameObject there!!
-			self->_collider.from[colFrom(dists)] = true;
+
 			return true;
 		}
-        return false;
-	}
-    
-	int colFrom(float arr[4]) {
-		float min = INFINITY;
-		int pos = -1;
-		for (int i = 0; i < 4; i++) {
-			if (arr[i] < min) {
-				min = arr[i];
-				pos = i;
-			}
-		}
-		return pos;
-	}
-    
-	bool ellipseCollision(GameObject* self, GameObject* other) {
         return false;
 	}
     
