@@ -13,9 +13,13 @@
 #include "./Singleton.hpp"
 #include "Types/Vector.hpp"
 
+
 class GraphicsManager;
 class GameObject;
 class StateManager;
+
+
+
 
 class CameraManager : public Singleton<CameraManager>{
 public:
@@ -43,5 +47,6 @@ private:
     dimensions viewportDimensions = {1000, 1000};
     
 };
+
 
 #endif /* CameraManager_hpp */

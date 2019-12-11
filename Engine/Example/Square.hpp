@@ -10,45 +10,37 @@
 #define Square_hpp
 
 #include <stdio.h>
-#include "../GameObjectManager.hpp"
-#include "../CameraManager.hpp"
-#include "../InputManager.hpp"
-#include "../WindowManager.hpp"
-#include "../Types/GameObject.hpp"
-#include "../GameObjectHelper.hpp"
-#include "../SceneManager.hpp"
-#include "Scene.hpp"
+#include "../Engine.hpp"
 
 
+namespace Game {
 
 class Square : public GameObject {
     float speed = 10;
-    InputManager* input;
     
 public:
     Scene* scene;
     Square(::transform t, std::string tag, const Sprite* sprite, float spd) : GameObject(t, tag, sprite) {
         speed = spd;
-        input = InputManager::getInstance();
     }
     
     void update(double deltaTime) override {
-        key esc = input->getInput(ESC_K);
+        key esc = Dessert::Input->getInput(ESC_K);
         if (form.position.x > 300 || form.position.x < 0) {
-            GameObjectManager::getInstance()->Destroy(this);
+            Dessert::Game->Destroy(this);
         }
         if (esc && scene) {
-            printf("xD");
-            printf("%i", scene);
-            SceneManager::getInstance()->changeToScene(scene);
+            Dessert::Scene->changeToScene(scene);
         }
-        form.position.x += speed * deltaTime * (input->getInput(RIGHT) - input->getInput(LEFT));
-        form.position.y += speed * deltaTime * (input->getInput(DOWN) - input->getInput(UP));
+        form.position.x += speed * deltaTime * (Dessert::Input->getInput(RIGHT) - Dessert::Input->getInput(LEFT));
+        form.position.y += speed * deltaTime * (Dessert::Input->getInput(DOWN) - Dessert::Input->getInput(UP));
     }
     
 protected:
     void onCollide(GameObject *go, ColType* collider) override {
     }
+};
+
 };
 
 #endif /* Square_hpp */

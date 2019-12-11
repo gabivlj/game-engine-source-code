@@ -21,6 +21,8 @@
 #include <SDL2_image/SDL_image.h>
 #endif
 
+
+
 class Sprite {
     std::string path;
 public:

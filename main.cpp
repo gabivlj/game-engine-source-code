@@ -7,63 +7,59 @@
 /// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 /// @github: https://github.com/gabivlj/game-engine-source-code
 #include <iostream>
-#include "./Engine/Types/Scene.hpp"
-#include "./Engine/Engine.hpp"
+
 #include "./Engine/Example/Square.hpp"
 
-
 int main(int arg, char* args[]) {
-    GraphicsManager* graphics = GraphicsManager::getInstance();
-    SceneManager* scenes = SceneManager::getInstance();
     Scene* scene = new Scene();
-    CameraManager::getInstance()->setPosition(vec2{40, 40});
-    CameraManager::getInstance()->setSize(dimensions{1000, 1000});
+    Dessert::Camera->setPosition(vec2{40, 40});
+    Dessert::Camera->setSize(dimensions{1000, 1000});
     
     transform tr = transform{};
     tr.position = vec2{0, 0};
     tr.dimension.width = 100;
     tr.dimension.height = 100;
     // Sprite declaration
-    const Sprite *sp = graphics->loadSprite("/loaded.png", dimensions{10, 10}, vec2{0, 0});
+    const Sprite *sp = Dessert::Graphics->loadSprite("/loaded.png", dimensions{10, 10}, vec2{0, 0});
     
     tr.dimension.height += 100;
     tr.position.x += 150;
     GameObject* g2 = new GameObject(tr, "gm", sp);
     
-    Square* g3 = new Square(tr, "gm", sp, 50);
+    Game::Square* g3 = new Game::Square(tr, "gm", sp, 50);
     
     tr.position.x += 15;
     tr.position.y += 15;
     
-    Square* g4 = new Square(tr, "gm2", sp, 50);
+    Game::Square* g4 = new Game::Square(tr, "gm2", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
     
-    Square* g5 = new Square(tr, "gm2", sp, 50);
+    Game::Square* g5 = new Game::Square(tr, "gm2", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
-    Square* g = new Square(tr, "gm", sp, 50);
+    Game::Square* g = new Game::Square(tr, "gm", sp, 50);
     Scene* sc2 = new Scene();
     sc2->addObject(g);
     g->scene = scene;
-    Square* g6 = new Square(tr, "gm2", sp, 50);
+    Game::Square* g6 = new Game::Square(tr, "gm2", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
-    Square* g7 = new Square(tr, "gm2", sp, 50);
+    Game::Square* g7 = new Game::Square(tr, "gm2", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
     g3->scene = sc2;
-    Square* g8 = new Square(tr, "gm2", sp, 50);
+    Game::Square* g8 = new Game::Square(tr, "gm2", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
-    Square* g9 = new Square(tr, "gm3", sp, 50);
+    Game::Square* g9 = new Game::Square(tr, "gm3", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
-    Square* g10 = new Square(tr, "gm3", sp, 50);
+    Game::Square* g10 = new Game::Square(tr, "gm3", sp, 50);
     tr.position.x += 15;
     tr.position.y += 15;
     
-    Square* g11 = new Square(tr, "gm", sp, 50);
+    Game::Square* g11 = new Game::Square(tr, "gm", sp, 50);
 
     // Object adding to scene
     tr.position.x += 115;
@@ -80,10 +76,10 @@ int main(int arg, char* args[]) {
     scene->addObject(g4);
     scene->addObject(g3);
     scene->addObject(g2);
-    scenes->addScene(scene);
-    scenes->addScene(sc2);
+    Dessert::Scene->addScene(scene);
+    Dessert::Scene->addScene(sc2);
     
         
     // Play game...
-    scenes->changeToScene(scene);
+    Dessert::Scene->changeToScene(scene);
 }

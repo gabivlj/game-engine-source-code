@@ -12,6 +12,28 @@
 #include "GameObjectManager.hpp"
 #include "GraphicsManager.hpp"
 #include "SceneManager.hpp"
+#include "InputManager.hpp"
+#include "./Types/Scene.hpp"
+
+
+/**
+ * @brief The game engine is called Dessert
+ */
+class Dessert {
+public:
+    
+    static GameObjectManager* Game;
+    static GraphicsManager* Graphics;
+    static SceneManager* Scene;
+    static InputManager* Input;
+    static CameraManager* Camera;
+    
+    Dessert() {
+        
+    }
+};
+
+
 
 //SceneManager *scenes = SceneManager::getInstance();
 //GameObjectManager* gameObject = GameObjectManager::getInstance();

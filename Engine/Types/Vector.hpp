@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <cmath>
 
+
+
 struct vec2{
     float x;
     float y;

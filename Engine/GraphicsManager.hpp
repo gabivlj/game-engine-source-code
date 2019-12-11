@@ -32,6 +32,7 @@
 
 class GameObjectHelper;
 
+
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
     
@@ -173,7 +174,8 @@ public:
         return sprite;
     }
         
-};
 
+
+};
 
 #endif /* GraphicsManager_hpp */
