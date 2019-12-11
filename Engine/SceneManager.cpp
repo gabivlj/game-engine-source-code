@@ -13,22 +13,20 @@
 #ifdef _WIN32
     #include <windows.h>
 
-    void ssleep(unsigned milliseconds)
-    {
+    void ssleep(unsigned milliseconds) {
         Sleep(milliseconds);
     }
 #else
     #include <unistd.h>
 
-    void ssleep(unsigned milliseconds)
-    {
+    void ssleep(unsigned milliseconds) {
         usleep(milliseconds * 1000); // takes microseconds
     }
 #endif
 
 
-// sleep for this microseconds because the scene changing is REALLY fast (test).
-unsigned int microseconds = 100000;
+// sleep for this milliseconds  because the scene changing is REALLY fast (test).
+unsigned int microseconds = 100;
 
 bool SceneManager::addScene(Scene* sceneToAdd) {
     scenes.push_back(sceneToAdd);
