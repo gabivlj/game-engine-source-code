@@ -9,6 +9,10 @@
 #include "SceneManager.hpp"
 #include "StateManager.hpp"
 #include "./Types/Scene.hpp"
+#include <unistd.h>
+
+// sleep for this microseconds because the scene changing is REALLY fast (test).
+unsigned int microseconds = 100000;
 
 bool SceneManager::addScene(Scene* sceneToAdd) {
     scenes.push_back(sceneToAdd);
@@ -16,19 +20,21 @@ bool SceneManager::addScene(Scene* sceneToAdd) {
 }
 
 bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
-   for (int i = 0; i < scenes.size(); ++i) {
+    
+    for (int i = 0; i < scenes.size(); ++i) {
        if (scenes[i] == sceneToChangeTo) {
            StateManager* stateManager = StateManager::getInstance();
            stateManager->nextScene = sceneToChangeTo;
            if (stateManager->playing) {
+               usleep(microseconds);
                stateManager->end();
            } else {
+               stateManager->nextScene = NULL;
                stateManager->start(sceneToChangeTo);
            }
-           
            return true;
        }
-   }
+    }
    return false;
 }
 

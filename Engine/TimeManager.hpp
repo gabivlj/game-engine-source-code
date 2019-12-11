@@ -24,7 +24,7 @@ private:
     
     friend StateManager;
     friend GameObjectManager;
-    friend void graphicsThreadUpdate();
+    friend void nonGraphicsRelatedUpdate();
     
     double deltaTime = 0.001;
     double elapsed = 0;

@@ -15,9 +15,12 @@
 #include "./Types/Scene.hpp"
 
 
+class StateManager;
+
 class SceneManager : public Singleton<SceneManager> {
 private:
     std::vector<Scene*> scenes;
+    friend StateManager;
 public:
     SceneManager() {
         scenes = std::vector<Scene*>();

@@ -21,12 +21,14 @@
 #include "GraphicsManager.hpp"
 #include "TimeManager.hpp"
 #include "InputManager.hpp"
+#include "SceneManager.hpp"
 #include "PhysicsManager.hpp"
 
 
 void StateManager::start(Scene* scene) {
     playing = false;
     finishedLoop = false;
+    ended = false;
     GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
     PhysicsManager::getInstance()->start(GameObjectManager::getInstance()->getObjects());
     GraphicsManager::getInstance()->start();
@@ -34,7 +36,7 @@ void StateManager::start(Scene* scene) {
     update();
 }
 
-void graphicsThreadUpdate() {
+void nonGraphicsRelatedUpdate() {
     int timesPlayed = 0;
     TimeManager* time = TimeManager::getInstance();
     
@@ -50,11 +52,15 @@ void graphicsThreadUpdate() {
     }
 }
 
+/**
+ * @brief Update lifecycle of the engine
+ * @discussion The update lifecycle of the entire application, basically spawns another thread for all of the non-related graphic stuff and then uses the main thread to run the GraphicsManager update so there ain't compatibility issues with Windows and no buggy bugs.
+ */
 void StateManager::update() {
     SDL_Event e;
     TimeManager* time = TimeManager::getInstance();
     // Start a new thread with every manager (Except the graphicsManager)
-    std::thread graphicsThread(graphicsThreadUpdate);
+    std::thread graphicsThread(nonGraphicsRelatedUpdate);
     double frameRate = 30.0 / 1000.0;
     while (playing) {
         // Timing start
@@ -76,25 +82,34 @@ void StateManager::update() {
     }
     finishedLoop = true;
     graphicsThread.join();
-}
-
-bool waitUntilUpdateFinishes() {
-    while (StateManager::getInstance()->finishedLoop) {}
-    
+    printf("se salio way");
     GameObjectManager::getInstance()->end();
-    GraphicsManager::getInstance()->end();
     PhysicsManager::getInstance()->end();
-    
-    if (StateManager::getInstance()->nextScene) {
+    if (StateManager::getInstance()->nextScene != NULL) {
+        printf("xd");
         StateManager::getInstance()->start(StateManager::getInstance()->nextScene);
     } else {
-        // TODO: Exit app.
+            printf("end");
+           GraphicsManager::getInstance()->end();
     }
+
+    ended = true;
+}
+
+/**
+ * @discussion Tries to end the application
+ */
+bool waitUntilUpdateFinishes() {
+    
+
     
     return true;
 }
 
 void StateManager::end() {
     playing = false;
-    std::thread thread(waitUntilUpdateFinishes);
+    printf("END\n");
+//    std::thread thread(waitUntilUpdateFinishes);
+   
 }
+

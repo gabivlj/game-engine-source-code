@@ -64,6 +64,16 @@ public:
         _tag = "";
     }
     
+    GameObject(::transform t, std::string tag, ColType col) {
+        instantiatedTest = tag == "prueba";
+        form = t;
+        _tag = tag;
+        _sprites = std::vector<const Sprite*>();
+        _sprite = 0;
+        _instanceID = GLOBAL_ID++;
+        _collider = col;
+    }
+    
     GameObject(::transform t, std::string tag, const Sprite* sprite) {
         instantiatedTest = tag == "prueba";        
         form = t;
@@ -72,6 +82,18 @@ public:
         _sprites.push_back(sprite);
         setSpriteIndex(0);
         _instanceID = GLOBAL_ID++;
+        _collider = ColType::NONE;
+    }
+    
+    GameObject(::transform t, std::string tag, const Sprite* sprite, ColType col) {
+        instantiatedTest = tag == "prueba";
+        form = t;
+        _tag = tag;
+        _sprites = std::vector<const Sprite*>();
+        _sprites.push_back(sprite);
+        setSpriteIndex(0);
+        _instanceID = GLOBAL_ID++;
+        _collider = col;
     }
     
     GameObject(::transform t, std::string tag) {
@@ -80,7 +102,7 @@ public:
         _tag = tag;
         _sprites = std::vector<const Sprite*>();
         _sprite = 0;
-//        setSpriteIndex(1);
+        _collider = ColType::NONE;
         _instanceID = GLOBAL_ID++;
     }
     

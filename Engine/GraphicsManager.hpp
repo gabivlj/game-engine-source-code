@@ -39,7 +39,7 @@ private:
     
     friend StateManager;
     friend GameObjectHelper;
-    friend void graphicsThreadUpdate();
+    friend void nonGraphicsRelatedUpdate();
     friend bool waitUntilUpdateFinishes();
     
     typedef struct {
@@ -51,10 +51,16 @@ private:
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;
     
+    /**
+     * @discussion I really don't know how (and I don't have time as well) to sync this method call to the GraphicsManager render. If you have any idea feel free to add the code lol. - Gabi.
+     */
     void renderLine(line l) {
         
     }
     
+    /**
+     * @discussion Basically this method renders a GameObject (If it detects that it doesn't have a sprite tries to render a square)
+     */
     void render(GameObject* gameObject) {
         // Get the rect of the gameObject
         SDL_Rect* endRect = ConversionSDL::tosdlrect(&gameObject->form.position, &gameObject->form.dimension);
@@ -78,7 +84,7 @@ private:
     
     /**
      * @param source Where to get the surface image
-     * @description Gets a surface from the specified source. (For texture rendering)
+     * @discussion Gets a surface from the specified source. (For texture rendering)
      */
     SDL_Surface* loadSurface(std::string source) {
         //The final optimized image
@@ -100,6 +106,10 @@ private:
         return optimizedSurface;
     }
     
+    /**
+     * @discussion Updates the graphics manager.
+     * @param gameObjects The gameObjects reference to the original source to render. Take into mind that in development of the engine we shouldn't access this gameObject vector while accessing it on the front-end because race conditions.
+     */
     bool update(std::vector<GameObject*>* gameObjects, int length) {
         WindowManager::getInstance()->clearWindow();
         SAVE = false;
@@ -117,9 +127,10 @@ private:
         SAVE = true;
         return true;
     }
-
+    
     bool end() {
-        
+        WindowManager::getInstance()->destroy();
+        delete this;
         return true;
     }
     
@@ -163,4 +174,6 @@ public:
     }
         
 };
+
+
 #endif /* GraphicsManager_hpp */

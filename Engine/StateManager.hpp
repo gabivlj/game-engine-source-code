@@ -20,14 +20,27 @@ class SceneManager;
 
 class StateManager : public Singleton<StateManager> {
 public:
+    
     bool playing = false;
     bool finishedLoop = false;
+    bool ended = true;
+    
     StateManager() {}
     
-private:
+    /**
+     * @brief End the app.
+     */
+    void exit() {
+        end();
+    }
 
+    
+    
+private:
+    
+    friend void exit();
     friend bool waitUntilUpdateFinishes();
-    friend void graphicsThreadUpdate();
+    friend void nonGraphicsRelatedUpdate();
     friend SceneManager;
     void start(Scene*);
     void update();
@@ -37,5 +50,8 @@ private:
 protected:
     
 };
+
+
+
 
 #endif /* StateManager_hpp */

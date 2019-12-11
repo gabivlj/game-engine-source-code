@@ -9,14 +9,18 @@
 #ifndef InputManager_hpp
 #define InputManager_hpp
 
-#define UP 0b00010000
-#define LEFT 0b00100000
-#define RIGHT 0b01000000
-#define DOWN 0b10000000
-#define W_K 0b00001000
-#define S_K 0b00000100
-#define A_K 0b00000010
-#define D_K 0b00000001
+/**
+ * @abstract Key declarations
+ */
+#define UP    0b000100000
+#define LEFT  0b001000000
+#define RIGHT 0b010000000
+#define DOWN  0b100000000
+#define W_K   0b000010000
+#define S_K   0b000001000
+#define A_K   0b000000100
+#define D_K   0b000000010
+#define ESC_K 0b000000001
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -36,17 +40,30 @@
 // Key Up Method definition
 #define KEY_UP(a, b) ((a ^ b) & b) == b ? a : a ^ b
 
-typedef u_int8_t key;
+typedef u_int16_t key;
 
 class StateManager;
 
+
+/**
+ * @description Static class that should only be used to gathering inputs.
+ */
 class InputManager : public Singleton<InputManager> {
     
     friend StateManager;
-    u_int8_t inputs = 0;
+    /**
+     * @discussion Basically this stores all of the inputs of the engine in a 8 bit variable.
+     */
+    u_int16_t inputs = 0;
 
+    /**
+     * @abstract On key down this should be fired.
+     * @param e SDL_Event
+     */
     void changeKeyDown(SDL_Event& e) {
        switch(e.key.keysym.sym){
+           case SDLK_ESCAPE:
+               inputs = PRESS(inputs, ESC_K);
            case SDLK_LEFT:
                inputs = PRESS(inputs, LEFT);
                break;
@@ -76,8 +93,14 @@ class InputManager : public Singleton<InputManager> {
        }
     }
     
+    /**
+     * @abstract On key up this should be fired.
+     * @param e SDL_Event
+     */
     void changeKeyUp(SDL_Event& e) {
         switch(e.key.keysym.sym){
+            case SDLK_ESCAPE:
+                inputs = KEY_UP(inputs, ESC_K);
             case SDLK_LEFT:
                 inputs = KEY_UP(inputs, LEFT);
                 break;
@@ -107,6 +130,9 @@ class InputManager : public Singleton<InputManager> {
         }
     }
 
+    /**
+     * @param e SDL_Event
+     */
     void processEvent(SDL_Event& e) {
        switch(e.type) {
            case SDL_KEYUP:
@@ -128,10 +154,15 @@ public:
     
     InputManager() {}
     
+    /**
+     * @param k the key that you want
+     * @description Returns if the passed key is being pressed.
+     */
     bool getInput(key k) {
         return (inputs & k) == k;
     }
     
 };
+
 
 #endif /* InputManager_hpp */

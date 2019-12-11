@@ -26,14 +26,15 @@ class WindowManager : public Singleton<WindowManager> {
     bool initialized = false;
 public:
     friend class Singleton<WindowManager>;
-    /**
-     * @param SCREEN_HEIGHT The screen height
-     * @param SCREEN_WIDTH The screen width
-     * @description Initializes the window.
-     */
+   
     int SCREEN_H = 1000;
     int SCREEN_W = 1000;
     
+    /**
+     * @param SCREEN_HEIGHT The screen height
+     * @param SCREEN_WIDTH The screen width
+     * @brief Initializes the window.
+    */
     void initialize (int SCREEN_HEIGHT, int SCREEN_WIDTH) {
         if (initialized) return;
         initialized = true;
@@ -47,6 +48,7 @@ public:
             printf( "Unable to load renderer! SDL_image Error: %s\n", SDL_GetError());
         }
     }
+    
     const SDL_Surface* Surface() {
         return s;
     }
@@ -70,10 +72,10 @@ public:
     }
     
     /**
-     * @description Don't use this. We already use RenderTexture()
+     * @brief Don't use this. We already use RenderTexture()
      * @deprecated
      */
-    void Render(SDL_Texture* t, const SDL_Rect* rect) SDL_DEPRECATED _LIBCPP_DEPRECATED {
+    void Render(SDL_Texture* t, const SDL_Rect* rect) {
         SDL_Point p;
         SDL_Rect reeect;
         reeect = { rect->x, rect->y, rect->w, rect->h};
@@ -87,6 +89,10 @@ public:
         SDL_RenderPresent(r);
     }
 
+    /**
+     * @deprecated
+     * @see GraphicsManager::renderLine()
+     */
     void drawLines(const SDL_Point* points, int len) {
         SDL_RenderDrawLines(r, points, len);
     }
@@ -102,14 +108,14 @@ public:
      * @param t Texture to render
      * @param rect Where to render
      * @param image_rect Where is the original texture stored
-     * @description Copies a texture from @image_rect and renders it on @rect
+     * @brief Copies a texture from image_rect and renders it on rect
      */
     void renderTexture(SDL_Texture* t, const SDL_Rect* rect, const SDL_Rect* image_rect) {
          SDL_RenderCopy(r, t, image_rect, rect);
     }
     
     /**
-     * @description Clears the window
+     * @brief Clears the window
      */
     void clearWindow() {
         SDL_SetRenderDrawColor(r, 1, 0xFF, 0xFF, 0xFF);
@@ -121,6 +127,9 @@ public:
         updateWindow();
     }
     
+    /**
+     * @brief Destroys the window.
+     */
     void destroy() {
         SDL_DestroyWindow(w);
     }
