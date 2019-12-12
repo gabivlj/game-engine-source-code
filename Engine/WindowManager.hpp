@@ -44,7 +44,7 @@ public:
         int flagRenderer = SDL_RENDERER_SOFTWARE;
 #ifdef _WIN32
         flag = SDL_WINDOW_OPENGL;
-        flagRenderer = -1;
+        flagRenderer = SDL_RENDERER_SOFTWARE;
 #else
         flag = 0;
 #endif
