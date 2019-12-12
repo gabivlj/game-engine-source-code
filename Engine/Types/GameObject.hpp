@@ -138,7 +138,7 @@ protected:
     
    
     
-    virtual void onCollide(GameObject*, ColType*) {}
+    virtual void onCollide(GameObject*, ColType*, ColFrom) {}
     
 };
 
