@@ -40,10 +40,23 @@ public:
         initialized = true;
         SCREEN_W = SCREEN_WIDTH;
         SCREEN_H = SCREEN_HEIGHT;
-        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-        r = SDL_CreateRenderer(w, -1, 0);
-        r = SDL_GetRenderer(w);
+        int flag = 0;
+        int flagRenderer = SDL_RENDERER_SOFTWARE;
+#ifdef _WIN32
+        flag = SDL_WINDOW_OPENGL;
+        flagRenderer = -1;
+#else
+        flag = 0;
+#endif
+        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, flag);
+        
+        r = SDL_CreateRenderer(w, -1, flagRenderer);
         s = SDL_GetWindowSurface(w);
+        
+        if (s == NULL) {
+            printf("Unable Surface: %s", SDL_GetError());
+        }
+        
         if (r == NULL) {
             printf("Unable to load renderer! SDL_image Error: %s\n", SDL_GetError());
         }
