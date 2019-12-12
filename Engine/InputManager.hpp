@@ -40,7 +40,7 @@
 // Key Up Method definition
 #define KEY_UP(a, b) ((a ^ b) & b) == b ? a : a ^ b
 
-typedef u_int16_t key;
+typedef uint16_t key;
 
 class StateManager;
 
@@ -54,7 +54,7 @@ class InputManager : public Singleton<InputManager> {
     /**
      * @discussion Basically this stores all of the inputs of the engine in a 8 bit variable.
      */
-    u_int16_t inputs = 0;
+    uint16_t inputs = 0;
 
     /**
      * @abstract On key down this should be fired.

@@ -24,7 +24,6 @@ private:
     // Variables
 	friend StateManager;
     friend bool waitUntilUpdateFinishes();
-    
 	std::vector<GameObject*> gameObjects;
     
     // Methods
@@ -51,22 +50,37 @@ private:
 	}
 
 	// GABI TODO: AABBCollision should call onCollide() and pass gameObject there!!
-	bool AABBCollision(GameObject* self, GameObject* other) {
+	int AABBCollision(GameObject* self, GameObject* other) {
+		int col = -1;
 		if (self->form.position.y < other->form.position.y - other->form.dimension.height &&	// TOP
 			self->form.position.x < other->form.position.x + other->form.dimension.width &&		// LEFT
 			self->form.position.y + self->form.dimension.height < other->form.position.y &&		// BOTTOM
 			self->form.position.x + self->form.dimension.width < other->form.position.x) {		// RIGHT
 			// Calculate the side from where we collided
-			float dists[] = {
-				std::abs((self->form.position.y) - (other->form.position.y + other->form.dimension.height)),
-				std::abs((self->form.position.x) - (other->form.position.x + other->form.dimension.width)),
-				std::abs((self->form.position.y + self->form.dimension.height) - (other->form.position.y)),
-				std::abs((self->form.position.x + self->form.dimension.width) - (other->form.position.x))
+			float dists[4] = {
+				std::abs((self->form.position.y) - (other->form.position.y + other->form.dimension.height)),	// TOP
+				std::abs((self->form.position.x) - (other->form.position.x + other->form.dimension.width)),		// LEFT
+				std::abs((self->form.position.y + self->form.dimension.height) - (other->form.position.y)),		// BOTTOM
+				std::abs((self->form.position.x + self->form.dimension.width) - (other->form.position.x))		// RIGHT
 			};
 
-			return true;
+			// Get the minimum distance between opposites to know where we have collided from
+			col = min(dists, 4);
 		}
-        return false;
+		// Return -1 if not collided, assigned integer if we did
+        return col;
+	}
+
+	int min(float arr[], int size) {
+		int min = HUGE_VALF;
+		int pos = -1;
+		for (int i = 0; i < size; i++) {
+			if (arr[i] < min) {
+				min = arr[i];
+				pos = i;
+			}
+		}
+		return pos;
 	}
     
 public:

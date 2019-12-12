@@ -40,13 +40,14 @@ public:
         initialized = true;
         SCREEN_W = SCREEN_WIDTH;
         SCREEN_H = SCREEN_HEIGHT;
-        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
-        s = SDL_GetWindowSurface(w);
+        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
         r = SDL_GetRenderer(w);
-        SDL_RenderSetLogicalSize(r, SCREEN_WIDTH, SCREEN_HEIGHT);
+        s = SDL_GetWindowSurface(w);
         if (r == NULL) {
-            printf( "Unable to load renderer! SDL_image Error: %s\n", SDL_GetError());
+            printf("Unable to load renderer! SDL_image Error: %s\n", SDL_GetError());
         }
+        SDL_RenderSetLogicalSize(r, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
     }
     
     const SDL_Surface* Surface() {

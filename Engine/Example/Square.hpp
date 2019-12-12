@@ -17,7 +17,7 @@
 #include "../Types/GameObject.hpp"
 #include "../GameObjectHelper.hpp"
 #include "../SceneManager.hpp"
-#include "Scene.hpp"
+#include "../Types/Scene.hpp"
 
 
 

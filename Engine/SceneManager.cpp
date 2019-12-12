@@ -9,7 +9,8 @@
 #include "SceneManager.hpp"
 #include "StateManager.hpp"
 #include "./Types/Scene.hpp"
-#include <unistd.h>
+#include <Windows.h>
+// #include <unistd.h>
 
 // sleep for this microseconds because the scene changing is REALLY fast (test).
 unsigned int microseconds = 100000;
@@ -26,7 +27,7 @@ bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
            StateManager* stateManager = StateManager::getInstance();
            stateManager->nextScene = sceneToChangeTo;
            if (stateManager->playing) {
-               usleep(microseconds);
+               Sleep(microseconds);
                stateManager->end();
            } else {
                stateManager->nextScene = NULL;
