@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include "Vector.hpp"
 
+
 class ConversionSDL {
 public:
     /**

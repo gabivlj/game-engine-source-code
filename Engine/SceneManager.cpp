@@ -9,11 +9,24 @@
 #include "SceneManager.hpp"
 #include "StateManager.hpp"
 #include "./Types/Scene.hpp"
-#include <Windows.h>
-// #include <unistd.h>
 
-// sleep for this microseconds because the scene changing is REALLY fast (test).
-unsigned int microseconds = 100000;
+#ifdef _WIN32
+    #include <windows.h>
+
+    void ssleep(unsigned milliseconds) {
+        Sleep(milliseconds);
+    }
+#else
+    #include <unistd.h>
+
+    void ssleep(unsigned milliseconds) {
+        usleep(milliseconds * 1000); // takes microseconds
+    }
+#endif
+
+
+// sleep for this milliseconds  because the scene changing is REALLY fast (test).
+unsigned int microseconds = 100;
 
 bool SceneManager::addScene(Scene* sceneToAdd) {
     scenes.push_back(sceneToAdd);
@@ -23,18 +36,18 @@ bool SceneManager::addScene(Scene* sceneToAdd) {
 bool SceneManager::changeToScene(Scene *sceneToChangeTo) {
     
     for (int i = 0; i < scenes.size(); ++i) {
-       if (scenes[i] == sceneToChangeTo) {
-           StateManager* stateManager = StateManager::getInstance();
-           stateManager->nextScene = sceneToChangeTo;
-           if (stateManager->playing) {
-               Sleep(microseconds);
-               stateManager->end();
-           } else {
-               stateManager->nextScene = NULL;
-               stateManager->start(sceneToChangeTo);
-           }
+        if (scenes[i] != sceneToChangeTo)
+            continue;
+        StateManager* stateManager = StateManager::getInstance();
+        stateManager->nextScene = sceneToChangeTo;
+        if (stateManager->playing) {
+           ssleep(microseconds);
+           stateManager->end();
            return true;
-       }
+        }
+        stateManager->nextScene = NULL;
+        stateManager->start(sceneToChangeTo);
+        return true;
     }
    return false;
 }
