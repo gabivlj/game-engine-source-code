@@ -40,7 +40,8 @@ public:
         initialized = true;
         SCREEN_W = SCREEN_WIDTH;
         SCREEN_H = SCREEN_HEIGHT;
-        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+        w = SDL_CreateWindow("My game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+        r = SDL_CreateRenderer(w, -1, 0);
         r = SDL_GetRenderer(w);
         s = SDL_GetWindowSurface(w);
         if (r == NULL) {

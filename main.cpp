@@ -20,7 +20,7 @@ int main(int arg, char* args[]) {
     tr.dimension.width = 100;
     tr.dimension.height = 100;
     // Sprite declaration
-    const Sprite *sp = Dessert::Graphics->loadSprite("/loaded.png", dimensions{10, 10}, vec2{0, 0});
+    const Sprite *sp = Dessert::Graphics->loadSprite("loaded.png", dimensions{10, 10}, vec2{0, 0});
     
     tr.dimension.height += 100;
     tr.position.x += 150;
@@ -82,4 +82,5 @@ int main(int arg, char* args[]) {
         
     // Play game...
     Dessert::Scene->changeToScene(scene);
+    return 0;
 }
