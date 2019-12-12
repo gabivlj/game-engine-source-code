@@ -38,7 +38,13 @@ private:
     
 	void end() { gameObjects.clear(); };
     
-	void update() { };
+	void update() {
+		for (int i = 0; i < gameObjects.size(); i++) {
+			for (int j = 0; j < gameObjects.size(); j++) {
+				AABBCollision(gameObjects[i], gameObjects[j]);
+			}
+		}
+	};
     
 	void popGameObject(GameObject* go) { 
 		for (int i = 0; i < gameObjects.size(); i++) {
@@ -51,6 +57,9 @@ private:
 
 	// GABI TODO: AABBCollision should call onCollide() and pass gameObject there!!
 	int AABBCollision(GameObject* self, GameObject* other) {
+		vec2 selfCurrentPos = self->form.position;
+		vec2 otherCurrentPos = other->form.position;
+
 		int col = -1;
 		if (self->form.position.y < other->form.position.y - other->form.dimension.height &&	// TOP
 			self->form.position.x < other->form.position.x + other->form.dimension.width &&		// LEFT
@@ -63,9 +72,9 @@ private:
 				std::abs((self->form.position.y + self->form.dimension.height) - (other->form.position.y)),		// BOTTOM
 				std::abs((self->form.position.x + self->form.dimension.width) - (other->form.position.x))		// RIGHT
 			};
-
 			// Get the minimum distance between opposites to know where we have collided from
 			col = min(dists, 4);
+			self->onCollide(other, &other->_collider);
 		}
 		// Return -1 if not collided, assigned integer if we did
         return col;
