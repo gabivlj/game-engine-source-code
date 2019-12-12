@@ -17,6 +17,7 @@
 #include "Types/GameObject.hpp"
 #include "TimeManager.hpp"
 #include "GraphicsManager.hpp"
+#include "PhysicsManager.hpp"
 
 class StateManager;
 
@@ -75,13 +76,15 @@ private:
         switch(action->action) {
             case TypeOfAction::INSTANTIATE:
                 _objects.push_back(action->gameObjectToApply);
+                PhysicsManager::getInstance()->gameObjects.push_back(action->gameObjectToApply);
                 return;
             case TypeOfAction::DELETE:
+                PhysicsManager::getInstance()->popGameObject(action->gameObjectToApply);
                 for (int i = 0; i < _objects.size(); ++i)
                     if (_objects[i] == action->gameObjectToApply) {
                         _objects.erase(_objects.begin() + i);
                         return;
-                    }
+                    }               
                 std::cout << "Error on runtime: No object found on deleting...";
                 return;
             default:

@@ -18,10 +18,13 @@
 #include "Types/GameObject.hpp"
 
 class StateManager;
+class GameObjectManager;
 
 class PhysicsManager : public Singleton<PhysicsManager> {
 private:
     // Variables
+    friend GameObjectManager;
+    friend void nonGraphicsRelatedUpdate();
 	friend StateManager;
     friend bool waitUntilUpdateFinishes();
 	std::vector<GameObject*> gameObjects;
@@ -41,6 +44,7 @@ private:
 	void update() {
 		for (int i = 0; i < gameObjects.size(); i++) {
 			for (int j = 0; j < gameObjects.size(); j++) {
+                if (i == j) continue;
 				AABBCollision(gameObjects[i], gameObjects[j]);
 			}
 		}
@@ -48,7 +52,7 @@ private:
     
 	void popGameObject(GameObject* go) { 
 		for (int i = 0; i < gameObjects.size(); i++) {
-			if (go == gameObjects[i]) {
+			if (go->instanceID() == gameObjects[i]->instanceID()) {
 				gameObjects.erase(gameObjects.begin() + i);
 				return;
 			}
@@ -62,11 +66,12 @@ private:
 
 		int col = -1;
 		ColFrom from = NOWHERE;
-		if (self->form.position.y < other->form.position.y - other->form.dimension.height &&	// TOP
+		if (self->form.position.y < other->form.position.y + other->form.dimension.height &&	// TOP
 			self->form.position.x < other->form.position.x + other->form.dimension.width &&		// LEFT
-			self->form.position.y + self->form.dimension.height < other->form.position.y &&		// BOTTOM
-			self->form.position.x + self->form.dimension.width < other->form.position.x) {		// RIGHT
+			self->form.position.y + self->form.dimension.height > other->form.position.y &&		// BOTTOM
+			self->form.position.x + self->form.dimension.width > other->form.position.x) {		// RIGHT
 			// Calculate the side from where we collided
+//       s     printf("1:%i, 2:%i\n", self->instanceID(), other->instanceID());
 			float dists[4] = {
 				std::abs((self->form.position.y) - (other->form.position.y + other->form.dimension.height)),	// TOP
 				std::abs((self->form.position.x) - (other->form.position.x + other->form.dimension.width)),		// LEFT

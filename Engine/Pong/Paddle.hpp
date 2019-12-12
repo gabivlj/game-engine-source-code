@@ -18,12 +18,12 @@ class Paddle : public GameObject {
 public:
     Scene* scene;
     bool secondPlayer;
-    Paddle(::transform t, std::string tag, float spd) : GameObject(t, tag) {
+    Paddle(::transform t, std::string tag, float spd) : GameObject(t, tag, ColType::SQUARES) {
         speed = spd;
         secondPlayer = false;
     }
     
-    Paddle(::transform t, std::string tag, float spd, bool p_secondPlayer) : GameObject(t, tag) {
+    Paddle(::transform t, std::string tag, float spd, bool p_secondPlayer) : GameObject(t, tag, ColType::SQUARES) {
         speed = spd;
         secondPlayer = p_secondPlayer;
     }
@@ -46,7 +46,7 @@ public:
     }
     
 protected:
-    void onCollide(GameObject *go, ColType* collider) override {
+    void onCollide(GameObject *go, ColType* collider, ColFrom col) override {
     }
 };
 

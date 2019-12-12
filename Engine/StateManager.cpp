@@ -32,6 +32,7 @@ void StateManager::start(Scene* scene) {
     GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
     PhysicsManager::getInstance()->start(GameObjectManager::getInstance()->getObjects());
     GraphicsManager::getInstance()->start();
+    
     playing = true;
     update();
 }
@@ -43,6 +44,7 @@ void nonGraphicsRelatedUpdate() {
     while (StateManager::getInstance()->playing && !StateManager::getInstance()->finishedLoop) {
         time->startDelta();
         // Update every gameObject
+        PhysicsManager::getInstance()->update();
         GameObjectManager::getInstance()->update();
         // Elapsed
         // Delta update
@@ -61,7 +63,7 @@ void StateManager::update() {
     TimeManager* time = TimeManager::getInstance();
     // Start a new thread with every manager (Except the graphicsManager)
     std::thread graphicsThread(nonGraphicsRelatedUpdate);
-    double frameRate = 30.0 / 1000.0;
+    double frameRate = 1.0 / 1000.0;
     while (playing) {
         // Timing start
         time->start();
@@ -82,14 +84,11 @@ void StateManager::update() {
     }
     finishedLoop = true;
     graphicsThread.join();
-    printf("se salio way");
     GameObjectManager::getInstance()->end();
     PhysicsManager::getInstance()->end();
     if (StateManager::getInstance()->nextScene != NULL) {
-        printf("xd");
         StateManager::getInstance()->start(StateManager::getInstance()->nextScene);
     } else {
-            printf("end");
            GraphicsManager::getInstance()->end();
     }
 

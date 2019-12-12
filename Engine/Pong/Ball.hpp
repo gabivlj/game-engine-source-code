@@ -19,7 +19,7 @@ class Ball : public GameObject {
     
 public:
     
-    Ball() : GameObject(transform{vec2{500 - 50, 500 - 50}, vec2{1,1}, dimensions{50, 50}, 0}, "ball") {
+    Ball() : GameObject(transform{vec2{500 - 50, 500 - 50}, vec2{1,1}, dimensions{50, 50}, 0}, "ball", ColType::SQUARES) {
         speed = 500;
         printf("%f, %f", form.dimension.width, form.position.y);
         
@@ -31,8 +31,12 @@ public:
 
         if (x >= 1000) {
             signX = -1.0f;
+            Dessert::Game->Destroy(this);
+            Dessert::Game->Instantiate(new Ball());
         } else if (x - 50 < 0) {
             signX = 1.0f;
+            Dessert::Game->Destroy(this);
+            Dessert::Game->Instantiate(new Ball());
         }
         
         if (y + 50 > 1000) {
@@ -49,7 +53,11 @@ public:
     }
     
 protected:
-    void onCollide(GameObject *go, ColType* collider) override {
+    void onCollide(GameObject *go, ColType* collider, ColFrom col) override {
+        if (col == ColFrom::C_LEFT) signX = 1.0f;
+        if (col == ColFrom::C_RIGHT) signX = -1.0f;
+        if (col == ColFrom::C_TOP) signY = 1.0f;
+        if (col == ColFrom::C_BOTTOM) signY = -1.0f;
     }
 };
 #endif /* Ball_hpp */

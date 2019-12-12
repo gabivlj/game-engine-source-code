@@ -129,6 +129,9 @@ public:
     
     void _update() {
     }
+    int instanceID() {
+        return _instanceID;
+    }
     
 protected:
 
@@ -139,6 +142,8 @@ protected:
    
     
     virtual void onCollide(GameObject*, ColType*, ColFrom) {}
+    
+public:
     
 };
 
