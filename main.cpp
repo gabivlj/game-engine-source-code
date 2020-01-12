@@ -9,11 +9,13 @@
 #include <iostream>
 
 //#include "./Engine/Example/Square.hpp"
-#include "./Engine/Pong/runnable.hpp"
+//#include "./Engine/Pong/runnable.hpp"
+#include "./Engine/SpaceInvader/runnable.hpp"
 
 int main(int arg, char* args[]) {
-    /* Stupid demo where we show more or less all capabilities of the engine, uncomment to try */
-    /************************************************************************/
+
+//    /* Stupid demo where we show more or less all capabilities of the engine, uncomment to try */
+//    /************************************************************************/
 //    Scene* scene = new Scene();
 //    Dessert::Camera->setPosition(vec2{40, 40});
 //    Dessert::Camera->setSize(dimensions{1000, 1000});
@@ -85,9 +87,9 @@ int main(int arg, char* args[]) {
 //
 //    // Play game...
 //    Dessert::Scene->changeToScene(scene);
-    
+//
     // game
-    Pong();
-    
+    ShipInvaders();
+//    Pong();
     return 0;
 }

@@ -30,7 +30,7 @@ public:
         main->addObject(paddle);
         main->addObject(paddle2);
         Dessert::Camera->setPosition(vec2{0, 0});
-        Dessert::Camera->setSize(dimensions{1300, 1300});
+        Dessert::Camera->setSize(dimensions{1000, 1000});
         Dessert::Scene->addScene(main);
         Dessert::Scene->changeToScene(main);
     }

@@ -21,7 +21,6 @@ public:
     
     Ball() : GameObject(transform{vec2{500 - 50, 500 - 50}, vec2{1,1}, dimensions{50, 50}, 0}, "ball", ColType::SQUARES) {
         speed = 500;
-        printf("%f, %f", form.dimension.width, form.position.y);
         
     }
     

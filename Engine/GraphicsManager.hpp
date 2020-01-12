@@ -32,6 +32,19 @@
 
 class GameObjectHelper;
 
+class GraphicsException : public std::exception {
+    
+public:
+    GraphicsException(std::string what) {
+        w = what;
+    }
+private:
+    std::string w;
+    virtual const char* what() const throw() {
+        return std::string("Exception on GraphicsManager: " + w).c_str();
+    }
+};
+
 
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
@@ -94,12 +107,14 @@ private:
         SDL_Surface* loadedSurface = IMG_Load(source.c_str());
         if (loadedSurface == NULL) {
             printf( "Unable to load image %s! SDL_image Error: %s\n", source.c_str(), IMG_GetError() );
+            throw new GraphicsException("Unable to open the image, either the path doesn't exist or it is not a supported format.");
         } else {
             //Convert surface to screen format
             optimizedSurface = SDL_ConvertSurface(loadedSurface, WindowManager::getInstance()->Surface()->format, 0);
             
             if (optimizedSurface == NULL) {
-                printf( "Unable to optimize image %s! SDL Error: %s\n", source.c_str(), SDL_GetError() );
+                printf("Unable to optimize image %s! SDL Error: %s\n", source.c_str(), SDL_GetError());
+                throw new GraphicsException("Unable to optimize the image! SDL_Error above.");
             }
             SDL_FreeSurface( loadedSurface );
         }
@@ -158,6 +173,7 @@ public:
      * @param source string of the path
      * @param dimensions dimensions of the sprite
      * @param position position of the sprite (0,0)?
+     * @throws GraphicsException if: the source does not exist, or the image format is not supported. You can catch it if you want so your game doesn't give a single sh*t about sprites.
      * @returns Sprite reference to add to your gameObject.
      * @description Loads a sprite. 1. Loads a surface. 2. Loads the texture from the surface and the SDL_Rect (the texture dimensions). 3. Adds it to the map of the textures and SDL_rects for rendering.
      */
@@ -165,6 +181,9 @@ public:
         if (!SAVE) return NULL;
         const Sprite* sprite = new Sprite(source);
         SDL_Surface* surface = loadSurface(source);
+        if (!surface) {
+            return NULL;
+        }
         dimensions.width = surface->w;
         dimensions.height = surface->h;
         SDL_Rect* rect = ConversionSDL::tosdlrect(&position, &dimensions);

@@ -87,6 +87,16 @@ public:
         _collider = ColType::NONE;
     }
     
+    GameObject(::transform t, std::string tag, std::vector<const Sprite*> sprites, ColType col) {
+        instantiatedTest = tag == "prueba";
+        form = t;
+        _tag = tag;
+        _sprites = sprites;
+        setSpriteIndex(0);
+        _instanceID = GLOBAL_ID++;
+        _collider = col;
+    }
+    
     GameObject(::transform t, std::string tag, const Sprite* sprite, ColType col) {
         instantiatedTest = tag == "prueba";
         form = t;
