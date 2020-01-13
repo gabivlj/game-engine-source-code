@@ -13,19 +13,25 @@
 #include "../Types/GameObject.hpp"
 #include "../Engine.hpp"
 
-
 class Bullet : public GameObject {
 public:
-    Bullet(vec2 position, const Sprite* spr) : GameObject({ position, {1, 1}, {5, 30} }, "bullet", spr) {
-        
+    
+    Bullet(vec2 position, const Sprite* spr) : GameObject({ position, {1, 1}, {5, 30} }, "bullet", spr, ColType::SQUARES) {
     }
     
-    void start() override {
-        printf("spawned lol");
+    void start() override {}
+    
+    void onCollide(GameObject* col , ColType* t, ColFrom from) override {
+        if (from == ColFrom::C_TOP) {
+            Dessert::Game->Destroy(col);
+        }
     }
     
     void update(double dt) override {
-//        form.position.y += -dt;
+        form.position.y += -dt * 200;
+        if (form.position.y < 0) {
+            Dessert::Game->Destroy(this);
+        }
     }
 private:
     

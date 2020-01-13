@@ -13,26 +13,53 @@
 #include "../Types/GameObject.hpp"
 #include "../Engine.hpp"
 #include "./Bullet.hpp"
+#include "./Enemy.hpp"
 #include <chrono>
+
+#include <iostream>
+#include <random>
+
+static std::random_device rd; // obtain a random number from hardware
+static std::mt19937 eng(rd()); // seed the generator
+static std::uniform_int_distribution<> randomRange(0, 400); // define the range
+
+
 
 
 class Ship : public GameObject {
 private:
     float speed = 100;
     const Sprite* spriteBullet;
+    const Sprite* spriteEnemy;
+    bool canSpawn = true;
     bool canShoot = true;
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point beginEnemy = std::chrono::steady_clock::now();
     
 public:
     
     void move(const int vertical, const int horizontal, double dt) {
         form.position.x += (float) horizontal * speed * dt;
-        form.position.y += (float) vertical * speed * dt;
+        form.position.y += (float) vertical   * speed * dt;
     }
     
-    float passedSeconds() {
+    float passedSeconds(std::chrono::steady_clock::time_point b) {
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-        return std::chrono::duration_cast<std::chrono::seconds>(end - begin).count();
+        return std::chrono::duration_cast<std::chrono::seconds>(end - b).count();
+    }
+    
+    void spawnEnemy() {
+        if (!canSpawn && passedSeconds(beginEnemy) > 0.01f) {
+            canSpawn = true;
+        }
+        if (!canSpawn) {
+            return;
+        }
+        beginEnemy = std::chrono::steady_clock::now();;
+        canSpawn = false;
+        Dessert::Game->Instantiate(new Enemy(spriteEnemy, { (float) (randomRange(eng)), 0 }));
+        Dessert::Game->Instantiate(new Enemy(spriteEnemy, { (float) (randomRange(eng)), 0 }));
+        Dessert::Game->Instantiate(new Enemy(spriteEnemy, { (float) (randomRange(eng)), 0 }));
     }
     
     void restartTimer() {
@@ -40,7 +67,7 @@ public:
     }
     
     void handleShooting() {
-        if (!canShoot && passedSeconds() > 0.0000000001f) {
+        if (!canShoot && passedSeconds(begin) > 0.0000000001f) {
             restartTimer();
             canShoot = true;
             return;
@@ -48,13 +75,18 @@ public:
         if (!canShoot) return;
         restartTimer();
         canShoot = false;
-        std::cout << spriteBullet->path;
         Dessert::Game->Instantiate(new Bullet(form.position, spriteBullet));
     }
     
     void update(double deltaTime) override {
         InputManager input = *Dessert::Input;
-        int inputs[5] = {input.getInput(UP), input.getInput(RIGHT), input.getInput(LEFT), input.getInput(DOWN), input.getInput(W_K)};
+        int inputs[5] = {
+            input.getInput(UP),
+            input.getInput(RIGHT),
+            input.getInput(LEFT),
+            input.getInput(DOWN),
+            input.getInput(W_K)
+        };
         if (inputs[0]) {
             setSpriteIndex(1);
         } else {
@@ -64,10 +96,12 @@ public:
         if (inputs[4]) {
             handleShooting();
         }
+        spawnEnemy();
     }
     
-    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr) : GameObject(::transform {{50, 50}, {1, 1}, {24, 32}}, "yes", sprites, ColType::SQUARES) {
+    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr) : GameObject(::transform { {50, 50}, {1, 1}, {24, 32} }, "player", sprites, ColType::SQUARES) {
         spriteBullet = bulletSpr;
+        spriteEnemy = enemySpr;
         restartTimer();
     };
     

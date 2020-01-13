@@ -116,13 +116,10 @@ public:
     
     bool Instantiate(GameObject* gameObject) {
         _actions.push(Actions{gameObject, TypeOfAction::INSTANTIATE});
+        gameObject->start();
         return true;
     }
-    
-//    void drawLine(vec2 point1, vec2 point2) {
-//        GraphicsManager::getInstance()->drawLine(point1, point2);
-//    }
-    
+
 };
 
 #endif // GameObjectManager_hpp
