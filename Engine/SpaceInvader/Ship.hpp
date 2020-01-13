@@ -21,10 +21,7 @@
 
 static std::random_device rd; // obtain a random number from hardware
 static std::mt19937 eng(rd()); // seed the generator
-static std::uniform_int_distribution<> randomRange(0, 400); // define the range
-
-
-
+static std::uniform_int_distribution<> randomRange(0, 400); // define the range 
 
 class Ship : public GameObject {
 private:
@@ -33,6 +30,8 @@ private:
     const Sprite* spriteEnemy;
     bool canSpawn = true;
     bool canShoot = true;
+    Scene* sceneToChangeTo;
+    int goalDestroyedShips;
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::chrono::steady_clock::time_point beginEnemy = std::chrono::steady_clock::now();
     
@@ -75,7 +74,7 @@ public:
         if (!canShoot) return;
         restartTimer();
         canShoot = false;
-        Dessert::Game->Instantiate(new Bullet(form.position, spriteBullet));
+        Dessert::Game->Instantiate(new Bullet(form.position, spriteBullet, &goalDestroyedShips));
     }
     
     void update(double deltaTime) override {
@@ -97,12 +96,16 @@ public:
             handleShooting();
         }
         spawnEnemy();
+        if (goalDestroyedShips <= 0) Dessert::Scene->changeToScene(sceneToChangeTo);
     }
     
-    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr) : GameObject(::transform { {50, 50}, {1, 1}, {24, 32} }, "player", sprites, ColType::SQUARES) {
+    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr, Scene* scene, int goal)
+    : GameObject(::transform { {50, 300}, {1, 1}, {24, 32} }, "player", sprites, ColType::SQUARES) {
         spriteBullet = bulletSpr;
         spriteEnemy = enemySpr;
         restartTimer();
+        sceneToChangeTo = scene;
+        goalDestroyedShips = goal;
     };
     
     

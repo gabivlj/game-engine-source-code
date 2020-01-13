@@ -28,12 +28,18 @@ public:
         // Background
         GameObject* bck = new GameObject({vec2{0, 0}, vec2{1, 1}, {1000, 1000}}, "background", background);
         Scene* main = new Scene();
-        Ship* ship = new Ship(spritesShip, bullet, enemySpr);
+        Scene* second = new Scene();
+        
+        Ship* ship = new Ship(spritesShip, bullet, enemySpr, second, 3);
+        Ship* shipScene2 = new Ship(spritesShip, bullet, enemySpr, main, 3);
         main->addObject(bck);
         main->addObject(ship);
+        second->addObject(bck);
+        second->addObject(shipScene2);        
         Dessert::Camera->setPosition(vec2{0, 0});
         Dessert::Camera->setSize(dimensions{400, 400});
         Dessert::Scene->addScene(main);
+        Dessert::Scene->addScene(second);
         Dessert::Scene->changeToScene(main);
     }
 };

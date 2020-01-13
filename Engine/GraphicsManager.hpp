@@ -92,7 +92,6 @@ private:
             W->renderSquare(endRect);
             return;
         }
-        W->renderSquare(endRect);
         const Sprite* spr = gameObject->sprite();
         SDL_Texture* texture = textures[spr];
         W->renderTexture(texture, endRect, positions[spr]);

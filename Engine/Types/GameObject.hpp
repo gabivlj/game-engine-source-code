@@ -152,9 +152,10 @@ protected:
         spriteIndex = index;
     }
     
-   
+    virtual void onExitScene() {}
     
     virtual void onCollide(GameObject*, ColType*, ColFrom) {}
+    
     
 public:
     

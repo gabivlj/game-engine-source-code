@@ -14,9 +14,11 @@
 #include "../Engine.hpp"
 
 class Bullet : public GameObject {
+    int* leftBullets;
 public:
     
-    Bullet(vec2 position, const Sprite* spr) : GameObject({ position, {1, 1}, {5, 30} }, "bullet", spr, ColType::SQUARES) {
+    Bullet(vec2 position, const Sprite* spr, int* left) : GameObject({ position, {1, 1}, {5, 30} }, "bullet", spr, ColType::SQUARES) {
+        leftBullets = left;
     }
     
     void start() override {}
@@ -24,6 +26,7 @@ public:
     void onCollide(GameObject* col , ColType* t, ColFrom from) override {
         if (from == ColFrom::C_TOP) {
             Dessert::Game->Destroy(col);
+            (*leftBullets)--;
         }
     }
     
