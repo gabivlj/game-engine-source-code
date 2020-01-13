@@ -60,7 +60,7 @@ private:
         // Empty the queue
         while (!_actions.empty()) {
             Actions object = _actions.front();
-            decideAction(&object);
+            decideAction(&object);;
             _actions.pop();
         }
     }
@@ -83,8 +83,9 @@ private:
                 for (int i = 0; i < _objects.size(); ++i)
                     if (_objects[i] == action->gameObjectToApply) {
                         _objects.erase(_objects.begin() + i);
+                        delete action->gameObjectToApply;
                         return;
-                    }               
+                    }
                 std::cout << "Error on runtime: No object found on deleting...";
                 return;
             default:

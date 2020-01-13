@@ -76,6 +76,7 @@ private:
      * @discussion Basically this method renders a GameObject (If it detects that it doesn't have a sprite tries to render a square)
      */
     void render(GameObject* gameObject) {
+        if (!gameObject) printf("wtf");
         // Get the rect of the gameObject
         SDL_Rect* endRect = ConversionSDL::tosdlrect(&gameObject->form.position, &gameObject->form.dimension);
         // Declarations
@@ -92,8 +93,12 @@ private:
             W->renderSquare(endRect);
             return;
         }
-        SDL_Texture* texture = textures.at(gameObject->sprite());
-        W->renderTexture(texture, endRect, positions.at(gameObject->sprite()));
+        const Sprite* spr = gameObject->sprite();
+        if (!spr) {
+            std::cout << spr;
+        }
+        SDL_Texture* texture = textures[spr];
+        W->renderTexture(texture, endRect, positions[gameObject->sprite()]);
     }
     
     /**

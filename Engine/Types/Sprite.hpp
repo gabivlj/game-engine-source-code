@@ -24,8 +24,9 @@
 
 
 class Sprite {
-    std::string path;
+    
 public:
+    std::string path;
     Sprite(std::string p) {
         path = p;
     }

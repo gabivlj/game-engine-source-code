@@ -16,6 +16,7 @@
 #include "Collider.hpp"
 #include "Sprite.hpp"
 
+
 static int GLOBAL_ID = 0;
 
 
@@ -43,6 +44,8 @@ private:
     const Sprite* _sprite;
     bool instantiatedTest;
     transform _formRender;
+    
+
     
 public:
     // Variables
