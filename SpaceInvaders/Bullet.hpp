@@ -10,8 +10,8 @@
 #define Bullet_hpp
 
 #include <stdio.h>
-#include "../Types/GameObject.hpp"
-#include "../Engine.hpp"
+#include "../Engine/Types/GameObject.hpp"
+#include "../Engine/Engine.hpp"
 
 class Bullet : public GameObject {
     int* leftBullets;

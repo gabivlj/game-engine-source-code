@@ -10,7 +10,7 @@
 #define Paddle_hpp
 
 #include <stdio.h>
-#include "../Engine.hpp"
+#include "../Engine/Engine.hpp"
 
 class Paddle : public GameObject {
     float speed = 10;

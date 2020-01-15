@@ -10,8 +10,8 @@
 #define Enemy_hpp
 
 #include <stdio.h>
-#include "../Types/GameObject.hpp"
-#include "../Engine.hpp"
+#include "../Engine/Types/GameObject.hpp"
+#include "../Engine/Engine.hpp"
 #include "./Bullet.hpp"
 #include <chrono>
 

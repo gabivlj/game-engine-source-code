@@ -10,7 +10,7 @@
 #define Ball_hpp
 
 #include <stdio.h>
-#include "../Engine.hpp"
+#include "../Engine/Engine.hpp"
 
 class Ball : public GameObject {
     float speed = 1000;

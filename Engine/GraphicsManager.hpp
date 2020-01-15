@@ -106,12 +106,14 @@ private:
         SDL_Surface* optimizedSurface = NULL;
         //Load image at specified path
         SDL_Surface* loadedSurface = IMG_Load(source.c_str());
+        SDL_SetSurfaceBlendMode(loadedSurface, SDL_BLENDMODE_BLEND);
         if (loadedSurface == NULL) {
             printf( "Unable to load image %s! SDL_image Error: %s\n", source.c_str(), IMG_GetError() );
             throw new GraphicsException("Unable to open the image, either the path doesn't exist or it is not a supported format.");
         } else {
             //Convert surface to screen format
-            optimizedSurface = SDL_ConvertSurface(loadedSurface, WindowManager::getInstance()->Surface()->format, 0);
+            SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+            optimizedSurface = SDL_ConvertSurface(loadedSurface,  loadedSurface->format, 0);
             
             if (optimizedSurface == NULL) {
                 printf("Unable to optimize image %s! SDL Error: %s\n", source.c_str(), SDL_GetError());
@@ -185,6 +187,7 @@ public:
         if (!surface) {
             return NULL;
         }
+      
         dimensions.width = surface->w;
         dimensions.height = surface->h;
         SDL_Rect* rect = ConversionSDL::tosdlrect(&position, &dimensions);

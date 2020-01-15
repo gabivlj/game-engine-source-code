@@ -9,8 +9,8 @@
 #include <iostream>
 
 //#include "./Engine/Example/Square.hpp"
-//#include "./Engine/Pong/runnable.hpp"
-#include "./Engine/SpaceInvader/runnable.hpp"
+//#include "./Pong/runnable.hpp"
+#include "./SpaceInvaders/runnable.hpp"
 
 int main(int arg, char* args[]) {
 
