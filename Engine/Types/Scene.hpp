@@ -29,7 +29,8 @@ public:
      * @returns boolean, true if succesful, false otherwise.
      */
     bool addObject(GameObject* object) {
-        _gameObjects = (GameObject**) realloc(_gameObjects, sizeof(GameObject*) * ++nGameObjects);
+        nGameObjects++;
+        _gameObjects = (GameObject**) realloc(_gameObjects, sizeof(GameObject*) * nGameObjects);
         _gameObjects[nGameObjects - 1] = object;
         return true;
     }
