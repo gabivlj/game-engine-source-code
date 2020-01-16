@@ -14,7 +14,12 @@
 #include <vector>
 #include <string>
 
+#ifdef _WIN32
+#include <SDL.h>
+#endif
+#if __APPLE__
 #include <SDL2/SDL.h>
+#endif
 #include "./Types/Sound.hpp"
 #include "../Engine/Types/DessertComponent.hpp"
 

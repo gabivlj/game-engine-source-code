@@ -11,8 +11,13 @@
 
 #include <stdio.h>
 #include <string>
-
+#ifdef _WIN32
+#include "SDL_mixer"
+#endif
+#if __APPLE__
 #include <SDL2_mixer/SDL_mixer.h>
+#endif
+
 
 #define DESSERT_SOUND_EFFECT 1
 #define DESSERT_MUSIC        2

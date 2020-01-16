@@ -26,8 +26,8 @@ public:
         // Load sprites
         const Sprite* bullet = Dessert::Graphics->loadSprite("assets/bullet.png", {5, 30}, {0, 0});
         const Sprite* enemySpr = Dessert::Graphics->loadSprite("assets/enemy.png", {30, 30}, {0, 0});
-        const Sprite* ship01 = Dessert::Graphics->loadSprite("ship01.png", {16, 24}, {0, 0});
-        const Sprite* ship02 = Dessert::Graphics->loadSprite("ship02.png", {16, 24}, {0, 0});
+        const Sprite* ship01 = Dessert::Graphics->loadSprite("assets/ship01.png", {16, 24}, {0, 0});
+        const Sprite* ship02 = Dessert::Graphics->loadSprite("assets/ship02.png", {16, 24}, {0, 0});
         const Sprite* background = Dessert::Graphics->loadSprite("assets/background.png", {1000, 1000}, {0, 0});
         std::vector<const Sprite*> spritesShip;
         spritesShip.push_back(ship01);
