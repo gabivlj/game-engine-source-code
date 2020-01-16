@@ -8,9 +8,11 @@ Disclaimer: This is only the source code!! You will need to install SDL2 by your
 - Sprite indexing.
 - GameObject instantiating
 - Deleting gameObjects
-- Including the engine files.
+- Including the engine files
 - Scene transitions
 - Life cycle methods (update, start...)
+- Camera Managing (Setting position, setting size...)
+- Also we have an optional manager, the SoundManager, in which you can play music and sounds
 
 ### For more information on how to create your own managers or components check Externals folder, we make a more detailed guide on how does it work there.
 
