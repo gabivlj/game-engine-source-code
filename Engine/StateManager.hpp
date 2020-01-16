@@ -12,11 +12,13 @@
 #include <stdio.h>
 #include "Singleton.hpp"
 #include "GameObjectManager.hpp"
+#include "Types/DessertComponent.cpp"
 
 
 // Predeclaration for the scene.
 class Scene;
 class SceneManager;
+class Dessert;
 
 class StateManager : public Singleton<StateManager> {
 public:
@@ -35,9 +37,8 @@ public:
     }
 
     
-    
 private:
-    
+    friend Dessert;
     friend void exit();
     friend bool waitUntilUpdateFinishes();
     friend void nonGraphicsRelatedUpdate();
@@ -46,7 +47,10 @@ private:
     void update();
     void end();
     Scene* nextScene;
-    
+    std::vector<DessertComponent*> dessertComponents;
+    void loadExternalsDessert(DessertComponent* component) {
+        dessertComponents.push_back(component);
+    }
 protected:
     
 };

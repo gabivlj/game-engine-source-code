@@ -13,6 +13,7 @@
 #include "GraphicsManager.hpp"
 #include "SceneManager.hpp"
 #include "InputManager.hpp"
+#include "StateManager.hpp"
 #include "./Types/Scene.hpp"
 
 
@@ -27,6 +28,10 @@ public:
     static SceneManager* Scene;
     static InputManager* Input;
     static CameraManager* Camera;
+    
+    static void LoadComponent(DessertComponent* dessert) {
+        StateManager::getInstance()->loadExternalsDessert(dessert);
+    }
     
     Dessert() {
         

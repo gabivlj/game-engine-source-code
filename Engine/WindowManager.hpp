@@ -53,14 +53,10 @@ public:
         r = SDL_CreateRenderer(w, -1, flagRenderer);
         s = SDL_GetWindowSurface(w);
 
-        // SDL_SetSurfaceBlendMode(s, SDL_BLENDMODE_BLEND);
-        // SDL_UpdateWindowSurface(w);
-
         if (s == NULL) {
             printf("Unable Surface: %s", SDL_GetError());
         }
-        // SDL_SetSurfaceBlendMode(s, SDL_BLENDMODE_BLEND);
-
+        
         if (r == NULL) {
             printf("Unable to load renderer! SDL_image Error: %s\n", SDL_GetError());
         }
@@ -97,7 +93,7 @@ public:
     void Render(SDL_Texture* t, const SDL_Rect* rect) {
         SDL_Point p;
         SDL_Rect reeect;
-        reeect = { rect->x, rect->y, rect->w, rect->h};
+        reeect = { rect->x, rect->y, rect->w, rect->h };
         p.x = rect->x + rect->w / 2;
         p.y = rect->y + rect->h / 2;
         double flip = 0;

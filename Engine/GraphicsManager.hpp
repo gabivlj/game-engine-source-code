@@ -33,7 +33,7 @@
 class GameObjectHelper;
 
 class GraphicsException : public std::exception {
-
+    
 public:
     GraphicsException(std::string what) {
         w = what;
@@ -48,30 +48,30 @@ private:
 
 class GraphicsManager : public Singleton<GraphicsManager> {
 private:
-
+    
     bool SAVE = false;
-
+    
     friend StateManager;
     friend GameObjectHelper;
     friend void nonGraphicsRelatedUpdate();
     friend bool waitUntilUpdateFinishes();
-
+    
     typedef struct {
         SDL_Point p1;
         SDL_Point p2;
     } SDL_Line;
 
-
+    
     std::map<const Sprite*, SDL_Texture*> textures;
     std::map<const Sprite*, SDL_Rect*> positions;
-
+    
     /**
      * @discussion I really don't know how (and I don't have time as well) to sync this method call to the GraphicsManager render. If you have any idea feel free to add the code lol. - Gabi.
      */
     void renderLine(line l) {
-
+        
     }
-
+    
     /**
      * @discussion Basically this method renders a GameObject (If it detects that it doesn't have a sprite tries to render a square)
      */
@@ -96,7 +96,7 @@ private:
         SDL_Texture* texture = textures[spr];
         W->renderTexture(texture, endRect, positions[spr]);
     }
-
+    
     /**
      * @param source Where to get the surface image
      * @discussion Gets a surface from the specified source. (For texture rendering)
@@ -108,24 +108,23 @@ private:
         SDL_Surface* loadedSurface = IMG_Load(source.c_str());
         SDL_SetSurfaceBlendMode(loadedSurface, SDL_BLENDMODE_BLEND);
         if (loadedSurface == NULL) {
-            printf("Unable to load image %s! SDL_image Error: %s\n", source.c_str(), IMG_GetError());
+            printf( "Unable to load image %s! SDL_image Error: %s\n", source.c_str(), IMG_GetError() );
             throw new GraphicsException("Unable to open the image, either the path doesn't exist or it is not a supported format.");
-        }
-        else {
+        } else {
             //Convert surface to screen format
-            SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
-            optimizedSurface = SDL_ConvertSurface(loadedSurface, loadedSurface->format, 0);
-
+            SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+            optimizedSurface = SDL_ConvertSurface(loadedSurface,  loadedSurface->format, 0);
+            
             if (optimizedSurface == NULL) {
                 printf("Unable to optimize image %s! SDL Error: %s\n", source.c_str(), SDL_GetError());
                 throw new GraphicsException("Unable to optimize the image! SDL_Error above.");
             }
-            SDL_FreeSurface(loadedSurface);
+            SDL_FreeSurface( loadedSurface );
         }
-
+        
         return optimizedSurface;
     }
-
+    
     /**
      * @discussion Updates the graphics manager.
      * @param gameObjects The gameObjects reference to the original source to render. Take into mind that in development of the engine we shouldn't access this gameObject vector while accessing it on the front-end because race conditions.
@@ -138,7 +137,7 @@ private:
             gameObject->_endedFrame = false;
             render(gameObject);
         }
-
+    
         // Render.
         CameraManager* camera = CameraManager::getInstance();
         SDL_Rect topLeftViewport = *ConversionSDL::tosdlrect(&camera->viewportPosition, &camera->viewportDimensions);
@@ -147,32 +146,32 @@ private:
         SAVE = true;
         return true;
     }
-
+    
     bool end() {
         WindowManager::getInstance()->destroy();
         delete this;
         return true;
     }
-
+    
     bool start() {
-        return true;
+       return true;
     }
-
+       
 
 public:
-
+    
     ~GraphicsManager() {
         textures.clear();
         positions.clear();
     }
-
+   
     GraphicsManager() {
         textures = std::map<const Sprite*, SDL_Texture*>();
         positions = std::map<const Sprite*, SDL_Rect*>();
         WindowManager::getInstance()->initialize(1000, 1000);
         SAVE = true;
     }
-
+    
     /**
      * @param source string of the path
      * @param dimensions dimensions of the sprite
@@ -188,16 +187,16 @@ public:
         if (!surface) {
             return NULL;
         }
-
+      
         dimensions.width = surface->w;
         dimensions.height = surface->h;
         SDL_Rect* rect = ConversionSDL::tosdlrect(&position, &dimensions);
         SDL_Texture* texture = WindowManager::getInstance()->createTexture(surface, rect);
-        positions.insert(std::pair<const Sprite*, SDL_Rect*>(sprite, rect));
-        textures.insert(std::pair<const Sprite*, SDL_Texture*>(sprite, texture));
+        positions.insert(std::pair<const Sprite*, SDL_Rect*> (sprite, rect));
+        textures.insert(std::pair<const Sprite*, SDL_Texture*> (sprite, texture));
         return sprite;
     }
-
+        
 
 
 };
