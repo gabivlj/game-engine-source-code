@@ -32,6 +32,7 @@ private:
     bool canSpawn = true;
     bool canShoot = true;
     Sound* laser;
+    Sound* soundtrack;
     Scene* sceneToChangeTo;
     int goalDestroyedShips;
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -84,6 +85,7 @@ public:
     }
     
     void update(double deltaTime) override {
+        soundManager.play(soundtrack);
         InputManager input = *Dessert::Input;
         int inputs[5] = {
             input.getInput(UP),
@@ -102,10 +104,13 @@ public:
             handleShooting();
         }
         spawnEnemy();
-        if (goalDestroyedShips <= 0) Dessert::Scene->changeToScene(sceneToChangeTo);
+        if (goalDestroyedShips <= 0) {
+            Dessert::Scene->changeToScene(sceneToChangeTo);
+            goalDestroyedShips = 30;
+        }
     }
     
-    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr, Scene* scene, int goal, Sound* laserSound)
+    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr, Scene* scene, int goal, Sound* laserSound, Sound* music)
     : GameObject(::transform { {50, 300}, {1, 1}, {24, 32} }, "player", sprites, ColType::SQUARES) {
         spriteBullet = bulletSpr;
         spriteEnemy = enemySpr;
@@ -113,6 +118,8 @@ public:
         sceneToChangeTo = scene;
         goalDestroyedShips = goal;
         laser = laserSound;
+        soundtrack = music;
+        
     };
     
     

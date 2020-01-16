@@ -22,6 +22,9 @@ protected:
     virtual void update() {}
     virtual void start() {}
     virtual void end() {}
+    virtual void onSceneChange() {
+        
+    }
     friend void exit();
     friend bool waitUntilUpdateFinishes();
     friend void nonGraphicsRelatedUpdate();

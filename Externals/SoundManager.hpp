@@ -32,7 +32,7 @@ public:
     }
     
     Sound* loadMusic(const char* path) {
-        Sound* sound = new Sound(path, DESSERT_SOUND_EFFECT);
+        Sound* sound = new Sound(path, DESSERT_MUSIC);
         sound->SDL_music = Mix_LoadMUS(path);
         sounds.push_back(sound);
         return sound;
@@ -71,7 +71,17 @@ private:
     bool initialized = false;
     std::vector<Sound*> sounds;
     
+    void onSceneChange() override {
+        
+    }
+    
     void start() override {
+        for (const auto& sound : sounds) {
+            sound->playing = false;
+            if (Mix_PlayingMusic()) {
+                Mix_HaltMusic();
+            }
+        }
     }
     
     void end() override {

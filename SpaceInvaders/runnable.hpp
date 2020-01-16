@@ -18,8 +18,12 @@
 class ShipInvaders {
 public:
     ShipInvaders() {
+        // Load our own External Component into the engine (So it gets started, updated and finished.)
         Dessert::LoadComponent(&soundManager);
+        // Load sound into soundManager
         Sound* laser = soundManager.loadSound("assets/laser.wav");
+        Sound* music = soundManager.loadMusic("assets/soundtrack.wav");        
+        // Load sprites
         const Sprite* bullet = Dessert::Graphics->loadSprite("assets/bullet.png", {5, 30}, {0, 0});
         const Sprite* enemySpr = Dessert::Graphics->loadSprite("assets/enemy.png", {30, 30}, {0, 0});
         const Sprite* ship01 = Dessert::Graphics->loadSprite("ship01.png", {16, 24}, {0, 0});
@@ -33,8 +37,8 @@ public:
         Scene* main = new Scene();
         Scene* second = new Scene();
         
-        Ship* ship = new Ship(spritesShip, bullet, enemySpr, second, 3, laser);
-        Ship* shipScene2 = new Ship(spritesShip, bullet, enemySpr, main, 3, laser);
+        Ship* ship = new Ship(spritesShip, bullet, enemySpr, second, 3, laser, music);
+        Ship* shipScene2 = new Ship(spritesShip, bullet, enemySpr, main, 3, laser, music);
         main->addObject(bck);
         main->addObject(ship);
         second->addObject(bck);

@@ -92,6 +92,9 @@ void StateManager::update() {
     GameObjectManager::getInstance()->end();
     PhysicsManager::getInstance()->end();
     if (StateManager::getInstance()->nextScene != NULL) {
+        for (const auto& component : StateManager::getInstance()->dessertComponents) {
+            component->onSceneChange();
+        }
         StateManager::getInstance()->start(StateManager::getInstance()->nextScene);
     } else {
         
