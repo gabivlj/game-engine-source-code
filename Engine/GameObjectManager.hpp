@@ -93,6 +93,7 @@ private:
     }
     
     void end() {
+        for (const auto& obj : _objects) obj->onExitScene();
         _objects.clear();
         // empty queue if there are actions left.
         if (!_actions.empty()) {

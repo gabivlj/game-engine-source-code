@@ -48,12 +48,16 @@ private:
 
     
 public:
-    // Variables
+    /**
+     * @brief Transform of the object.
+     */
     transform form;
     
     bool _endedFrame = false;
     
-    // Methods
+    /**
+     * @brief The unique instance ID
+     */
     const int getInstanceID() {
         return _instanceID;
     }
@@ -121,43 +125,75 @@ public:
         _instanceID = GLOBAL_ID++;
     }
     
+    /**
+     * @return Current sprite
+     */
     const Sprite* sprite() {
-        
-        return _sprite;
+        if (_sprites.size() == 0) return 0x0;
+        if (_sprites.size() <= spriteIndex || spriteIndex < 0) {
+            std::cout << "Sprite index is out of bounds.";
+            return 0x0;
+        }
+        return _sprites[spriteIndex];
     }
 
+    /**
+     * @brief Executed everytime it cans.
+     * @param deltaTime Time it took for the graphics to render the frame.
+     */
     virtual void update(double deltaTime);
     
+    /**
+     * @brief On Scene Start.
+     */
     virtual void start() {}
     
+    /**
+     * @brief Sets the collider for the next frame.
+     */
     void setCollider(ColType col) {
         _collider = col;
         // PhysicsManager::... -> informChange(this, col);
     }
     
     /**
-     * @description Changes in shared pointers will be made at the end when no one is accessing it for sure.
+     * @brief Changes in shared pointers will be made at the end when no one is accessing it for sure.
      */
     void _end();
     
+    /**
+     * @brief deprecated for the moment
+     */
     void _update() {
     }
+    
+    
+    /**
+     * @brief The unique instance ID
+     */
     int instanceID() {
         return _instanceID;
     }
     
 protected:
 
+    /**
+     * @brief Next frame will render the specified sprite index
+     */
     void setSpriteIndex(int index) {
         spriteIndex = index;
     }
     
+    /**
+     * @brief executed on scene change
+     */
     virtual void onExitScene() {}
     
+    /**
+     * @brief Fired everytime it collides with a GameObject which has a ColType that is not NULL.
+     */
     virtual void onCollide(GameObject*, ColType*, ColFrom) {}
     
-    
-public:
     
 };
 
