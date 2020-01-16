@@ -15,6 +15,7 @@
 
 class Bullet : public GameObject {
     int* leftBullets;
+
 public:
     
     Bullet(vec2 position, const Sprite* spr, int* left) : GameObject({ position, {1, 1}, {5, 30} }, "bullet", spr, ColType::SQUARES) {

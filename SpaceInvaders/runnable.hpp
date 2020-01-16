@@ -32,6 +32,7 @@ public:
         std::vector<const Sprite*> spritesShip;
         spritesShip.push_back(ship01);
         spritesShip.push_back(ship02);
+
         // Background
         GameObject* bck = new GameObject({vec2{0, 0}, vec2{1, 1}, {1000, 1000}}, "background", background);
         Scene* main = new Scene();
