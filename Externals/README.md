@@ -47,3 +47,6 @@ int main() {
 ```
 
 See more examples on how to use the engine in SpaceInvaders folder!
+
+
+Disclaimer: If you want to create GameObjects use the GameObjectManager and GameObject classes, these are more prepared. Check SpaceInvaders example.
