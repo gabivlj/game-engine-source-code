@@ -12,11 +12,14 @@
 #include <stdio.h>
 #include <vector>
 #include "../Engine/Engine.hpp"
+#include "../Externals/SoundManager.hpp"
 #include "Ship.hpp"
 
 class ShipInvaders {
 public:
     ShipInvaders() {
+        Dessert::LoadComponent(&soundManager);
+        Sound* laser = soundManager.loadSound("assets/laser.wav");
         const Sprite* bullet = Dessert::Graphics->loadSprite("assets/bullet.png", {5, 30}, {0, 0});
         const Sprite* enemySpr = Dessert::Graphics->loadSprite("assets/enemy.png", {30, 30}, {0, 0});
         const Sprite* ship01 = Dessert::Graphics->loadSprite("ship01.png", {16, 24}, {0, 0});
@@ -30,8 +33,8 @@ public:
         Scene* main = new Scene();
         Scene* second = new Scene();
         
-        Ship* ship = new Ship(spritesShip, bullet, enemySpr, second, 3);
-        Ship* shipScene2 = new Ship(spritesShip, bullet, enemySpr, main, 3);
+        Ship* ship = new Ship(spritesShip, bullet, enemySpr, second, 3, laser);
+        Ship* shipScene2 = new Ship(spritesShip, bullet, enemySpr, main, 3, laser);
         main->addObject(bck);
         main->addObject(ship);
         second->addObject(bck);

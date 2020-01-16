@@ -32,7 +32,9 @@ void StateManager::start(Scene* scene) {
     GameObjectManager::getInstance()->start(scene->_gameObjects, scene->nGameObjects);
     PhysicsManager::getInstance()->start(GameObjectManager::getInstance()->getObjects());
     GraphicsManager::getInstance()->start();
-    
+    for (const auto& component : StateManager::getInstance()->dessertComponents) {
+        component->start();
+    }
     playing = true;
     update();
 }
@@ -46,6 +48,9 @@ void nonGraphicsRelatedUpdate() {
         // Update every gameObject
         PhysicsManager::getInstance()->update();
         GameObjectManager::getInstance()->update();
+        for (const auto& component : StateManager::getInstance()->dessertComponents) {
+            component->update();
+        }
         // Elapsed
         // Delta update
         time->delta();
@@ -89,7 +94,13 @@ void StateManager::update() {
     if (StateManager::getInstance()->nextScene != NULL) {
         StateManager::getInstance()->start(StateManager::getInstance()->nextScene);
     } else {
-           GraphicsManager::getInstance()->end();
+        
+        for (const auto& component : StateManager::getInstance()->dessertComponents) {
+            component->end();
+        }
+        
+        GraphicsManager::getInstance()->end();
+        
     }
 
     ended = true;

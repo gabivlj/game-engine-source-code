@@ -17,15 +17,30 @@
 #define DESSERT_SOUND_EFFECT 1
 #define DESSERT_MUSIC        2
 
+typedef u_int8_t track_type;
 
 class SoundManager;
 
-typedef struct {
-    std::string path;
+class Sound {
+public:
+    const char* path;
+    track_type type;
+    
+    Sound(const char* p, track_type t) {
+        path = p;
+        type = t;
+    }
+    
+    ~Sound() {
+        if (SDL_sound_effect) Mix_FreeChunk(SDL_sound_effect);
+        if (SDL_music) Mix_FreeMusic(SDL_music);
+    }
+    
 private:
+    bool playing = false;
     friend SoundManager;
     Mix_Music* SDL_music;
     Mix_Chunk* SDL_sound_effect;
-} Sound;
+};
 
 #endif /* Sound_hpp */

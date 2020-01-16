@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "../Engine/Types/GameObject.hpp"
+#include "../Externals/SoundManager.hpp"
 #include "../Engine/Engine.hpp"
 #include "./Bullet.hpp"
 #include "./Enemy.hpp"
@@ -30,6 +31,7 @@ private:
     const Sprite* spriteEnemy;
     bool canSpawn = true;
     bool canShoot = true;
+    Sound* laser;
     Scene* sceneToChangeTo;
     int goalDestroyedShips;
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -71,7 +73,11 @@ public:
             canShoot = true;
             return;
         }
-        if (!canShoot) return;
+        if (!canShoot) {
+            soundManager.stop(laser);
+            return;
+        }
+        soundManager.play(laser);
         restartTimer();
         canShoot = false;
         Dessert::Game->Instantiate(new Bullet(form.position, spriteBullet, &goalDestroyedShips));
@@ -99,13 +105,14 @@ public:
         if (goalDestroyedShips <= 0) Dessert::Scene->changeToScene(sceneToChangeTo);
     }
     
-    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr, Scene* scene, int goal)
+    Ship(std::vector<const Sprite*> sprites, const Sprite* bulletSpr, const Sprite* enemySpr, Scene* scene, int goal, Sound* laserSound)
     : GameObject(::transform { {50, 300}, {1, 1}, {24, 32} }, "player", sprites, ColType::SQUARES) {
         spriteBullet = bulletSpr;
         spriteEnemy = enemySpr;
         restartTimer();
         sceneToChangeTo = scene;
         goalDestroyedShips = goal;
+        laser = laserSound;
     };
     
     

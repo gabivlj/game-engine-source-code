@@ -14,13 +14,17 @@
 
 class StateManager;
 
-class DessertComponent : Singleton<DessertComponent> {
+class DessertComponent {
 public:
   
 protected:
     friend StateManager;
     virtual void update() {}
     virtual void start() {}
+    virtual void end() {}
+    friend void exit();
+    friend bool waitUntilUpdateFinishes();
+    friend void nonGraphicsRelatedUpdate();
 private:
     friend StateManager;
 };

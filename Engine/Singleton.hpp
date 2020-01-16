@@ -16,7 +16,7 @@ class Singleton {
 private:
     static A* instance;
     friend A;
-    public:
+public:
     inline static A* createInstance() {
         if (instance == NULL)
             instance = new A();
