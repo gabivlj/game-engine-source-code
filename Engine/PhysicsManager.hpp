@@ -43,7 +43,14 @@ private:
     
 	void update() {
 		for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects[i]->_collider == ColType::NONE) {
+                gameObjects.erase(gameObjects.begin() + i);
+                continue;
+            }
 			for (int j = 0; j < gameObjects.size(); j++) {
+                if (gameObjects[j]->_collider == ColType::NONE) {
+                   continue;
+                }
                 if (i == j) continue;
 				AABBCollision(gameObjects[i], gameObjects[j]);
 			}
@@ -112,7 +119,6 @@ private:
 	}
     
 public:
-
 
 };
 
